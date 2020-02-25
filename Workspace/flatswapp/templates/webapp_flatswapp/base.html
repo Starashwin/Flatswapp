@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+	<head>
+		<title>
+			Flatswapp Home Page
+		</title>
+	</head>
+	<body>
+		<div>
+			{% block body_block %}
+			<h1>Welcome to Flatswapp!</h1>
+			{% endblock %}
+		</div>
+		<div>
+			{% block sidebar_block %}
+			{% endblock %}
+		</div>
+		<hr />
+		<div>
+			<ul>
+				<li><a href="{% url 'webapp_flatswapp:about' %}">About</a></li>
+			<ul>
+		</div>
+	</body>
+</html>

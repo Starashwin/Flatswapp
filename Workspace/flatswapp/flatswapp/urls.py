@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import include
+from webapp_flatswapp import views
+from django.conf import settings
+
 
 urlpatterns = [
+    path('', views.index, name='index'),
+    path('about/', views.about, name = 'about'),
     path('admin/', admin.site.urls),
+
 ]
