@@ -1,5 +1,5 @@
 from django.urls import path
-from rango import views
+from webapp_flatswapp import views
 
 app_name = 'webapp_flatswapp'
 
