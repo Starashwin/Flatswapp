@@ -1,0 +1,25 @@
+{% extends 'webapp_flatswapp/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Register
+{% endblock %}
+
+{% block body_block %}
+	<h1>Register for Flatswapp</h1>
+	{% if registered %}
+		<strong>thank you for registering!</strong>
+		<a href="{% url 'webapp_flatswapp:index' %}">Return to the homepage.</a><br />
+	{% else %}
+		<strong>register here!</strong><br />
+		<form id="user_form" method="post" action="{% url 'webapp_flatswapp:register' %}"
+		enctype="multipart/form-data">
+
+		{% csrf_token %}
+		{{ user_form.as_p }}
+		{{ profile_form.as_p }}
+
+		<input type="submit" name="submit" value="Register" />
+	</form>
+	{% endif %}
+{% endblock %}
