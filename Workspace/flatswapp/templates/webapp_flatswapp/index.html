@@ -4,3 +4,14 @@
 {% block title_block %}
 Homepage for Flatswapp
 {% endblock %}
+
+{% block body_block %}
+	<div>
+		{% if user.is_authenticated %}
+			Hey {{ user.username }}!
+		{% else %}
+			Hello Guest!
+		{% endif %}
+		<br/>
+	</div>
+{% endblock %}

@@ -16,6 +16,12 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #Variable to link the template folder
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+#For serving static files
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+#For serving Media files
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -39,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webapp_flatswapp',
+    'phonenumber_field',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +109,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Authentication Backends for social logins
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Google Auth key and secret
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '215762109314-3o0ged4689l36jdodef4qmdfbh29v6p4.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Yk_Xsq1gU56NL1BCsnjSLMW9'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -119,4 +137,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+STATICFILES_DIRS = [STATIC_DIR, ]
+
 STATIC_URL = '/static/'
+
+#Media Files
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
+
+# login url and redirect for social auth
+LOGIN_URL = '/auth/login/google-oauth2/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
