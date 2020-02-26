@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from webapp_flatswapp import views
 
 urlpatterns = [
-    path('', include('social_django.urls', namespace='social')),
+    path('oauth/', include('social_django.urls', namespace='social')),
     path('', views.index, name='index'),
     path('flatswapp/', include('webapp_flatswapp.urls')),
     path('admin/', admin.site.urls),

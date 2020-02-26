@@ -32,7 +32,7 @@ SECRET_KEY = 'xexx4teik^4jr2rje%9fgu-uyv0af*ftrt-b#_4spnwy5s+*0s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.flatswapp.com']
 
 
 # Application definition
@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'flatswapp.urls'
@@ -72,6 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -112,6 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Authentication Backends for social logins
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -120,6 +126,13 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '215762109314-3o0ged4689l36jdodef4qmdfbh29v6p4.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Yk_Xsq1gU56NL1BCsnjSLMW9'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
+#Twitter Auth key and consumer secret
+SOCIAL_AUTH_TWITTER_KEY = 'JtIg4y8jOrgwlXvsz1PHmjktP'
+SOCIAL_AUTH_TWITTER_SECRET = 'BSIXs1mtYkGg3wGy7m4N4x2q2sHbpxy2Vq1bYAK6cT517bUCs3'
+
+#Facebook App id and secret
+SOCIAL_AUTH_FACEBOOK_KEY = '864975957289429'
+SOCIAL_AUTH_FACEBOOK_SECRET = '007b57f8119639f6e5b9529a2b99b294'
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -146,6 +159,6 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 # login url and redirect for social auth
-LOGIN_URL = '/auth/login/google-oauth2/'
+LOGIN_URL = '/oauth/login/google-oauth2/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

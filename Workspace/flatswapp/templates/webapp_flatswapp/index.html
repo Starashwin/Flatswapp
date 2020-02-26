@@ -2,10 +2,11 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Homepage for Flatswapp
+Flatswapp
 {% endblock %}
 
 {% block body_block %}
+	<h1>Welcome to the homepage of Flatswapp</h1>
 	<div>
 		{% if user.is_authenticated %}
 			Hey {{ user.username }}!
