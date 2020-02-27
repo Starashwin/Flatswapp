@@ -7,6 +7,7 @@ Flatswapp
 
 {% block body_block %}
 	<h1>Welcome to the homepage of Flatswapp</h1>
+	<li><a href="{% url 'webapp_flatswapp:search' %}">Search Here</a></li>
 	<div>
 		{% if user.is_authenticated %}
 			Hey {{ user.username }}!

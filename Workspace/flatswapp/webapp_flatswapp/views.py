@@ -5,6 +5,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.db.models import Q
+from .models import *
 
 from webapp_flatswapp.forms import UserForm, UserProfileForm
 
@@ -62,3 +64,15 @@ def user_logout(request):
     logout(request)
     return redirect(reverse('webapp_flatswapp:index'))
 
+def search(request):
+    if request.method== 'POST':
+        srch = request.POST['search_string']
+        if srch:
+            match = UserProfile.objects.filter(Q(mobile__icontains=srch))
+            if match:
+                return render(request, 'webapp_flatswapp/search.html', {'sr':match})
+            else:
+                messages.error(request, 'no result found')
+        else:
+            return HttpResponseRedirect('/search/')
+    return render(request, 'webapp_flatswapp/search.html')

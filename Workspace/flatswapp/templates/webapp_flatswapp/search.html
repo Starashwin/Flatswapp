@@ -1,0 +1,16 @@
+{% extends 'webapp_flatswapp/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Search Page
+{% endblock %}
+
+{% block body_block %}
+	<h1>Search Box</h1>
+	<form method="post" action="{% url 'webapp_flatswapp:search' %}">
+	{% csrf_token %}
+		Search: <input type="text" name="search_string" value="" size="50" />
+		<br />
+		<input type="submit" value="submit" />
+	</form>
+{% endblock %}

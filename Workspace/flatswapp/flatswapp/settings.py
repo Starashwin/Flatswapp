@@ -133,6 +133,10 @@ SOCIAL_AUTH_TWITTER_SECRET = 'BSIXs1mtYkGg3wGy7m4N4x2q2sHbpxy2Vq1bYAK6cT517bUCs3
 #Facebook App id and secret
 SOCIAL_AUTH_FACEBOOK_KEY = '864975957289429'
 SOCIAL_AUTH_FACEBOOK_SECRET = '007b57f8119639f6e5b9529a2b99b294'
+
+#Google Maps API key 
+GOOGLE_MAPS_API_KEY = 'AIzaSyBpWUo9TsGZBrNIjocnYuned1gek4uQCv8'
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 

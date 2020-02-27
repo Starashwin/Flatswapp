@@ -13,3 +13,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('mobile', 'picture',)
+
+class Search(forms.ModelForm):
+    class Meta:
+        fields = ('search',)
