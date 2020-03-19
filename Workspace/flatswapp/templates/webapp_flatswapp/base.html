@@ -20,7 +20,17 @@
 		<hr />
 		<div>
 			<ul>
+				{% if user.is_authenticated %}
+					<li><a href="{% url 'webapp_flatswapp:logout' %}">Logout</a></li>
+				{% else %}
+					<li><a href="{% url 'webapp_flatswapp:register' %}">Sign up</a></li>
+					<li><a href="{% url 'webapp_flatswapp:login' %}">Login</a></li>
+					<li><a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a></li>
+					<li><a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a></li>
+					<li><a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a></li>
+				{% endif %}
 				<li><a href="{% url 'webapp_flatswapp:about' %}">About</a></li>
+				<li><a href="{% url 'webapp_flatswapp:index' %}">Index</a></li>
 			<ul>
 		</div>
 	</body>

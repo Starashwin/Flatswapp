@@ -16,6 +16,12 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #Variable to link the template folder
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+#For serving static files
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+#For serving Media files
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -26,7 +32,7 @@ SECRET_KEY = 'xexx4teik^4jr2rje%9fgu-uyv0af*ftrt-b#_4spnwy5s+*0s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.flatswapp.com']
 
 
 # Application definition
@@ -39,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webapp_flatswapp',
+    'phonenumber_field',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'flatswapp.urls'
@@ -64,6 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -101,6 +112,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Authentication Backends for social logins
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Google Auth key and secret
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '215762109314-3o0ged4689l36jdodef4qmdfbh29v6p4.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Yk_Xsq1gU56NL1BCsnjSLMW9'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+#Twitter Auth key and consumer secret
+SOCIAL_AUTH_TWITTER_KEY = 'JtIg4y8jOrgwlXvsz1PHmjktP'
+SOCIAL_AUTH_TWITTER_SECRET = 'BSIXs1mtYkGg3wGy7m4N4x2q2sHbpxy2Vq1bYAK6cT517bUCs3'
+
+#Facebook App id and secret
+SOCIAL_AUTH_FACEBOOK_KEY = '864975957289429'
+SOCIAL_AUTH_FACEBOOK_SECRET = '007b57f8119639f6e5b9529a2b99b294'
+
+#Google Maps API key 
+GOOGLE_MAPS_API_KEY = 'AIzaSyBpWUo9TsGZBrNIjocnYuned1gek4uQCv8'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -119,4 +154,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+STATICFILES_DIRS = [STATIC_DIR, ]
+
 STATIC_URL = '/static/'
+
+#Media Files
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
+
+# login url and redirect for social auth
+LOGIN_URL = '/oauth/login/google-oauth2/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

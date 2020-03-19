@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
-from webapp_flatswapp import views
 from django.conf import settings
+from django.conf.urls.static import static
 
+from webapp_flatswapp import views
 
 urlpatterns = [
+    path('oauth/', include('social_django.urls', namespace='social')),
     path('', views.index, name='index'),
-    path('about/',  include('webapp_flatswapp.urls')),
+    path('flatswapp/', include('webapp_flatswapp.urls')),
     path('admin/', admin.site.urls),
-
-]
+    path('about/', views.about, name = 'about'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
