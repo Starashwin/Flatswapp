@@ -4,14 +4,20 @@ from webapp_flatswapp.models import UserProfile
 from webapp_flatswapp.models import Address
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'list-group-item','placeholder':'Password'}), label='')
+    username = forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','placeholder':'Username'}), label='')
+    email = forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','placeholder':'Email'}), label='')
     class Meta:
+    
         model = User
         fields = ('username', 'email', 'password',)
+        
 
 
 class UserProfileForm(forms.ModelForm):
-    class Meta:
+    mobile = forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Phone number'}), label='')
+    
+    class Meta:     
         model = UserProfile
         fields = ('mobile', 'picture',)
 
