@@ -44,7 +44,7 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-        adrress_form = Adrress()
+        adrress_form = Address()
     return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 def user_login(request):
