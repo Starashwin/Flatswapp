@@ -20,8 +20,11 @@
 
 		{% csrf_token %}
 
-		{{ user_form.as_table }}
-		{{ profile_form.as_table }}
+		{{ user_form.as_p }}
+		{{ address_form.as_p }}
+		{{ profile_form.as_p }}
+
+
 		<div class="text-left mb-4" style="margin-top:20px">
 			<button class="btn btn-lg btn-primary" type="submit">Register</button>
 		</div>
