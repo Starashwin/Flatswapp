@@ -5,7 +5,7 @@ from django_google_maps import fields as map_fields
 
 from .models import *
 
-class RentalAdmin(admin.ModelAdmin):
+class LocationsAdmin(admin.ModelAdmin):
     formfield_overrides = {
         map_fields.AddressField: {'widget': map_widgets.GoogleMapsAddressWidget(attrs={'data-map-type': 'hybrid'})},
     }

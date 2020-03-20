@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.db.models import Q
 from .models import *
+import postcodes_io_api 
 
 from webapp_flatswapp.forms import UserForm, UserProfileForm
 
@@ -24,13 +25,16 @@ def register(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
+        address_form = Address(request.POST)
         
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid() and Api.is_postcode_valid(self, address_form.postcode):
             user = user_form.save()
             user.set_password(user.password)
             user.save()
             profile = profile_form.save(commit=False)
             profile.user = user
+            address = address_form.save(commit=False)
+
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
             profile.save()
@@ -40,6 +44,7 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
+        adrress_form = Address()
     return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 def user_login(request):
@@ -68,7 +73,7 @@ def search(request):
     if request.method== 'POST':
         srch = request.POST['search_string']
         if srch:
-            match = UserProfile.objects.filter(Q(mobile__icontains=srch))
+            match = UserProfile.objects.filter(Q(mobile__icontains=srch) | Q(location_icontains=srch))
             if match:
                 return render(request, 'webapp_flatswapp/search.html', {'sr':match})
             else:
