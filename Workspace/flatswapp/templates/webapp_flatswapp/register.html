@@ -19,11 +19,13 @@
 		enctype="multipart/form-data">
 
 		{% csrf_token %}
+
 		{{ user_form.as_table }}
 		{{ profile_form.as_table }}
 		<div class="text-left mb-4" style="margin-top:20px">
 			<button class="btn btn-lg btn-primary" type="submit">Register</button>
 		</div>
+
 	</form>
 	{% endif %}
 {% endblock %}
