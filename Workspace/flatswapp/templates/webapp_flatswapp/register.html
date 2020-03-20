@@ -8,18 +8,22 @@
 {% block body_block %}
 	<h1>Register for Flatswapp</h1>
 	{% if registered %}
-		<strong>thank you for registering!</strong>
+		<strong>Thank you for registering!</strong>
 		<a href="{% url 'webapp_flatswapp:index' %}">Return to the homepage.</a><br />
 	{% else %}
-		<strong>register here!</strong><br />
-		<form id="user_form" method="post" action="{% url 'webapp_flatswapp:register' %}"
+		<div class="col-sm-3 mx-auto" style="margin-top:20px">
+		<strong>Register for Flatswapp!</strong><br />
+		</div>
+		<form class="col-sm-3 mx-auto" style="margin-top:20px" id="user_form" method="post" action="{% url 'webapp_flatswapp:register' %}"
+		
 		enctype="multipart/form-data">
 
 		{% csrf_token %}
-		{{ user_form.as_p }}
-		{{ profile_form.as_p }}
-
-		<input type="submit" name="submit" value="Register" />
+		{{ user_form.as_table }}
+		{{ profile_form.as_table }}
+		<div class="text-left mb-4" style="margin-top:20px">
+			<button class="btn btn-lg btn-primary" type="submit">Register</button>
+		</div>
 	</form>
 	{% endif %}
 {% endblock %}
