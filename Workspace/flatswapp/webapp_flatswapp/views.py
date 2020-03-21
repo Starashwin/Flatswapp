@@ -3,19 +3,23 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.db.models import Q
 from .models import *
 import postcodes_io_api 
 
-from webapp_flatswapp.forms import UserForm, UserProfileForm, AddressForm
+from webapp_flatswapp.forms import UserForm, UserProfileForm, CategoryForm, PageForm
 
 # Create your views here.
 
 def index(request):
     return render(request, 'webapp_flatswapp/index.html')
 
+def myaccount(request):
+    return render(request, 'webapp_flatswapp/myaccount.html')
+    
 def about(request):
     response = render(request, 'webapp_flatswapp/about.html')
     return response
@@ -31,7 +35,7 @@ def show_category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['category'] = None
         context_dict['pages'] = None
-    return render(request, 'rango/category.html', context=context_dict)
+    return render(request, 'webapp_flatswapp/category.html', context=context_dict)
 
 @login_required    
 def add_category(request):
@@ -44,14 +48,14 @@ def add_category(request):
             form.save(commit=True)
             # Now that the category is saved, we could confirm this.
             # For now, just redirect the user back to the index view.
-            return redirect('/rango/')
+            return redirect('/flatswapp/')
         else:
             # The supplied form contained errors -
             # just print them to the terminal.
             print(form.errors)
     # Will handle the bad form, new form, or no form supplied cases.
     # Render the form with error messages (if any).
-    return render(request, 'rango/add_category.html', {'form': form})
+    return render(request, 'webapp_flatswapp/add_category.html', {'form': form})
 
 @login_required    
 def add_page(request, category_name_slug):
@@ -61,7 +65,7 @@ def add_page(request, category_name_slug):
         category = None
     # You cannot add a page to a Category that does not exist...
     if category is None:
-        return redirect('/rango/')
+        return redirect('/webapp_flatswapp/')
         
     form = PageForm()
 
@@ -75,27 +79,28 @@ def add_page(request, category_name_slug):
                 page.views = 0
                 page.save()
                 
-                return redirect(reverse('rango:show_category',kwargs={'category_name_slug':category_name_slug}))
+                return redirect(reverse('webapp_flatswapp:show_category',kwargs={'category_name_slug':category_name_slug}))
         else:
             print(form.errors)
             
     context_dict = {'form': form, 'category': category}
-    return render(request, 'rango/add_page.html', context=context_dict)
+    return render(request, 'webapp_flatswapp/add_page.html', context=context_dict)
     
 def register(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
-        address_form = AddressForm(request.POST)
+        #address_form = AddressForm(request.POST)
         
-        if user_form.is_valid() and profile_form.is_valid() : #and Api.is_postcode_valid(self, address_form.postcode):
+        if user_form.is_valid() and profile_form.is_valid(): #and Api.is_postcode_valid(self, address_form.postcode):
             user = user_form.save()
             user.set_password(user.password)
             user.save()
             profile = profile_form.save(commit=False)
             profile.user = user
             #address = address_form.save(commit=False)
+            #profile.address = adress
 
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
@@ -106,8 +111,7 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-        address_form = Address()
-    return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form,  'profile_form': profile_form, 'address_form':address_form, 'registered': registered})
+    return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form,  'profile_form': profile_form, 'registered': registered})
 
 def user_login(request):
     if request.method == 'POST':
@@ -117,7 +121,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('webapp_flatswapp:index'))
+                return redirect(reverse('webapp_flatswapp:myaccount'))
             else:
                 return HttpResponse("Your Flatswapp account is disabled.")
         else:

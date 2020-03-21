@@ -22,23 +22,26 @@
 		enctype="multipart/form-data">
 
 		{% csrf_token %}
-
+		<div id="lookup_field">
 		{{ user_form.as_p }}
 		{{ profile_form.as_p }}
 		
 	
 		<!-- Add a div to house your 
 		 2     postcode input field -->
-		<p>
-		<input class="list-group-item" name="postcode" id="customInput" type="text" placeholder="Post Code" required onchange="javascript:document.getElementById('dummyButton').click()"></input>
-		</p>
 
-		<div id="lookup_field">
+
+		
 
 		<a id="dummyButton"></a>
-		<p id="output_field" name="address">
-		<input class="list-group-item"  type="text" placeholder="Address" required></input>
+		<!--<p>
+		<input class="list-group-item" name="postcode" id="customInput" type="text" placeholder="Post Code" required onchange="javascript:document.getElementById('dummyButton').click()"></input>
 		</p>
+		
+		
+		<p id="output_field" name="address">
+		<input class="list-group-item" name="address" type="text" placeholder="Address" required></input>
+		</p>-->
 <!--
 <p>
 <input class="list-group-item" id="first_line" type="text">
@@ -76,8 +79,8 @@
 		address.post_town,
 		address.postcode,
 	].filter(elem => elem !== "")
-		.join("\n");
-		$("#output_field").html(result);
+		.join(", ");
+		document.getElementById("output_field").value=result;
 	},
 	input: '#customInput',
 	button: '#dummyButton'

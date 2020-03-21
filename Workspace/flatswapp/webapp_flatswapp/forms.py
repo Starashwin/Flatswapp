@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from webapp_flatswapp.models import UserProfile, Page, Category
-from webapp_flatswapp.models import Address
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'list-group-item','placeholder':'Password'}), label='')
@@ -16,19 +15,16 @@ class UserForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     mobile = forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Phone number'}), label='')
-    
+    postcode= forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item', 'id':'customInput','placeholder':'Post Code','onchange':"javascript:document.getElementById('dummyButton').click();"}), label='')
+    address= forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','id':'output_field','placeholder':'Address'}), label='')
+
     class Meta:     
         model = UserProfile
-        fields = ('mobile', 'picture',)
+        fields = ('mobile', 'picture','postcode','address',)
 
 class Search(forms.ModelForm):
     class Meta:
         fields = ('search',)
-
-class AddressForm(forms.ModelForm):
-    class Meta:
-        model = Address
-        fields = ('postcode','address',)
         
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=128,help_text="Please enter the category name.")
