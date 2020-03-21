@@ -6,26 +6,83 @@
 {% endblock %}
 
 {% block body_block %}
-	<h1>Register for Flatswapp</h1>
+	<script src="https://cdn.ideal-postcodes.co.uk/assets/application-62cbe07e8297b2f73364c29ce8fb3cd697e988e993579c444ee3eee439cf0f87.js"></script>
+	<script src="https://raw.githubusercontent.com/ideal-postcodes/jquery.postcodes/master/dist/postcodes.min.js"></script>
+	
+	<div class="col-sm-4 mx-auto" >
+	<h1 style="margin-top:80px">Register for Flatswapp</h1>
 	{% if registered %}
 		<strong>Thank you for registering!</strong>
 		<a href="{% url 'webapp_flatswapp:index' %}">Return to the homepage.</a><br />
 	{% else %}
-		<div class="col-sm-3 mx-auto" style="margin-top:20px">
-		<strong>Register for Flatswapp!</strong><br />
-		</div>
-		<form class="col-sm-3 mx-auto" style="margin-top:20px" id="user_form" method="post" action="{% url 'webapp_flatswapp:register' %}"
+		
+		
+		<form style="margin-top:20px" id="user_form" method="post" action="{% url 'webapp_flatswapp:register' %}"
 		
 		enctype="multipart/form-data">
 
 		{% csrf_token %}
 
-		{{ user_form.as_table }}
-		{{ profile_form.as_table }}
-		<div class="text-left mb-4" style="margin-top:20px">
-			<button class="btn btn-lg btn-primary" type="submit">Register</button>
-		</div>
+		{{ user_form.as_p }}
+		{{ profile_form.as_p }}
+		
+	
+		<!-- Add a div to house your 
+		 2     postcode input field -->
+		<p>
+		<input class="list-group-item" name="postcode" id="customInput" type="text" placeholder="Post Code" required onchange="javascript:document.getElementById('dummyButton').click()"></input>
+		</p>
 
-	</form>
+		<div id="lookup_field">
+
+		<a id="dummyButton"></a>
+		<p id="output_field" name="address">
+		<input class="list-group-item"  type="text" placeholder="Address" required></input>
+		</p>
+<!--
+<p>
+<input class="list-group-item" id="first_line" type="text">
+</p>
+<p>
+<input class="list-group-item" id="second_line" type="text">
+</p>
+<p>
+<input class="list-group-item" id="third_line" type="text">
+</p>
+<p>
+<input class="list-group-item" id="post_town" type="text">
+</p>
+<p>
+<input class="list-group-item" id="postcode" type="text">
+</p>
+ -->		 
+
+		
+		</div>
+		<button class="btn btn-lg btn-primary" style="margin-top:20px" type="submit">Register</button>
+		</form>
+	</div>
+
+	<script>
+	$('#lookup_field').setupPostcodeLookup({
+		api_key: 'ak_k80vayoei9mAzQXELFXEhKjOmYllt',
+		
+		output_fields: {},
+		onAddressSelected: address => {
+		const result = [
+		address.line_1,
+		address.line_2,
+		address.line_3,
+		address.post_town,
+		address.postcode,
+	].filter(elem => elem !== "")
+		.join("\n");
+		$("#output_field").html(result);
+	},
+	input: '#customInput',
+	button: '#dummyButton'
+	});
+	</script>
 	{% endif %}
+	
 {% endblock %}

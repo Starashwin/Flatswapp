@@ -15,7 +15,7 @@
 
 {% block body_block %}
 	
-	<form class="form-signin" method="post" action="{% url 'webapp_flatswapp:login' %}" style="margin-top:70px">
+	<form class="login_form" method="post" action="{% url 'webapp_flatswapp:login' %}" style="margin-top:70px">
 	{% csrf_token %}
       <div class="text-center mb-4">
         <img src="https://i5.walmartimages.com/asr/3c559ef5-d1e2-4ab6-9762-25d7c6ff783d_1.2586e787bb54c23ac571712f76377199.jpeg" alt="Logo" width="80" height="80">
@@ -24,13 +24,13 @@
       </div>
 	<div class="col-sm-4 mx-auto">
       <div class="form-group">
-		<label for="inputEmail">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+		<!--<label for="inputUser">Username</label> -->
+        <input type="text" name="username" id="inputUser" class="form-control" placeholder="Username" required autofocus>
       </div>
 
       <div class="form-group">
-		<label for="inputPassword">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+		<!--<label for="inputPassword">Password</label>-->
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
       </div>
 	
       <div class="checkbox mb-3">
