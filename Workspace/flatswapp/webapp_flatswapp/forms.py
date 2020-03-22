@@ -11,10 +11,10 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'password',)
         
-
-
+#<input type="tel" name="mobile" value="+154889" maxlength="128" required="" id="id_mobile">
+#<input type="tel" name="mobile" value="+15416" class="list-group-item" placeholder="Phone number" required="" id="id_mobile">
 class UserProfileForm(forms.ModelForm):
-    mobile = forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Phone number'}), label='')
+    mobile = forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','type':'tel','placeholder':'Phone number (eg. +44123456789)'}), label='')
     postcode= forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item', 'id':'customInput','placeholder':'Post Code','onchange':"javascript:document.getElementById('dummyButton').click();"}), label='')
     address= forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','id':'output_field','placeholder':'Address'}), label='')
 
