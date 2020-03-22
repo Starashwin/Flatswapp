@@ -16,37 +16,46 @@ Flatswapp
 		{% endif %}
 		<br/>
 	</div>-->
-	<main role="main">
+	{% if user.is_authenticated %}
+	
 
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron">
+	
+  <div class="row">
+	  <div class="col-sm-4" style="margin-top:50px" >
 
-      <h1 class="display-3">My Details</h1>
-      <p>{{ user.username }}</p>
-	  <p>{{ user.profile.mobile }}</p>
-	  <p>{{ user.profile.address }}</p>
+		  <h1 class="display-5">My Details</h1>
+		  <ul class="list-group ">
+			  <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+			  <li class="list-group-item"><strong>Mobile:</strong> {{ user.profile.mobile }}</li>
+			  <li class="list-group-item"><strong>Address:</strong> {{ user.profile.address }}</li>
+			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_category' %}"><strong>Add a flat</strong></a>
+			  <a class="list-group-item" href="{% url 'webapp_flatswapp:search' %}"><strong>Search a flat</strong></a>
+			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_category' %}"><strong>Shortlist</strong></a>
+			</ul>
 
-  </div>
+	  </div>
 
-  <div class="container">
-    <!-- Example row of columns -->
-    <h1 class="heading"> Customer Experience</h1>
-	<div class="row">
-      <div class="col-lg-6">
-        <h2>Brendan</h2>
-        <p> <img src="{{ MEDIA_URL }}persona1.jpg" alt="Persona1" width="200" height="200" style="float: left; margin-right: 10px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div>
-      <div class="col-lg-6">
-        <h2>Martha</h2>
-        <p> <img src="{{ MEDIA_URL }}persona2.jpg" alt="Persona1" width="200" height="200" style="float: left; margin-right: 10px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div>
-    </div>
+	  <div class="col">
+		<!-- Example row of columns -->
+		<h1 class="heading"> Customer Experience</h1>
+		<div class="row">
+		  <div class="col-lg-6">
+			<h2>Brendan</h2>
+			<p> <img src="{{ MEDIA_URL }}persona1.jpg" alt="Persona1" width="200" height="200" style="float: left; margin-right: 10px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+			<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+		  </div>
+		  <div class="col-lg-6">
+			<h2>Martha</h2>
+			<p> <img src="{{ MEDIA_URL }}persona2.jpg" alt="Persona1" width="200" height="200" style="float: left; margin-right: 10px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+			<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+		  </div>
+		</div>
 
-    <hr>
+		<hr>
 
-  </div> <!-- /container -->
-
-</main>
+	  </div> <!-- /container -->
+	</div>
+{% else %}
+<meta http-equiv="refresh" content="0; url=/flatswapp/" />
+{% endif %}
 {% endblock %}
