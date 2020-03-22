@@ -12,6 +12,7 @@ class UserProfile(models.Model):
     #postcode= models.TextField(null=True) 
     address= models.TextField() 
 
+
     def __str__(self):
         return self.user.username
 
