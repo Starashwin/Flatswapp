@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     mobile = PhoneNumberField()
     picture = models.ImageField(upload_to='profile_images', blank=True)
     #postcode= models.TextField(null=True) 
-    address= models.TextField() 
+    address= models.TextField(default='') 
 
 
     def __str__(self):
@@ -26,20 +26,27 @@ class Locations(models.Model):
 
     
 class Category(models.Model):
-    name = models.CharField(max_length=128, unique=True)
+    id = models.AutoField(primary_key=True)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     slug = models.SlugField(unique=True)
+    name=models.TextField()
+    address=models.TextField(default='')
+    n_bedrooms=models.IntegerField(default=0)
+    furnished=models.TextField(default='')
+    rent=models.IntegerField(default=0)
+    picture=models.ImageField(upload_to='home_images', blank=True)
+    
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.id)
         super(Category, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Categories'
 
     def __str__(self):
-        return self.name
+        return self.id
         
 class Page(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

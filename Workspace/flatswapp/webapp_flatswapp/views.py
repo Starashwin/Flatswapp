@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.db.models import Q
+from django.http import *
 from .models import *
 import postcodes_io_api 
 from webapp_flatswapp.forms import UserForm, UserProfileForm, CategoryForm, PageForm
@@ -41,11 +42,14 @@ def show_category(request, category_name_slug):
 def add_category(request):
     form = CategoryForm()
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
+        form = CategoryForm(request.POST,request.FILES)
         # Have we been provided with a valid form?
         if form.is_valid():
-            # Save the new category to the database.
+            if 'picture' in request.FILES:
+                form.picture = request.FILES['picture']
             form.save(commit=True)
+            # Save the new category to the database.
+
             # Now that the category is saved, we could confirm this.
             # For now, just redirect the user back to the index view.
             return redirect('/flatswapp/')
@@ -137,13 +141,11 @@ def user_logout(request):
 
 def search(request):
     if request.method== 'POST':
-        srch = request.POST['search_string']
-        if srch:
-            match = UserProfile.objects.filter(Q(mobile__icontains=srch) | Q(location_icontains=srch))
+        search_string = request.POST['search_string']
+        if search_string:
+            match = Category.objects.filter(Q(name__icontains=search_string))
             if match:
                 return render(request, 'webapp_flatswapp/search.html', {'sr':match})
-            else:
-                messages.error(request, 'no result found')
         else:
-            return HttpResponseRedirect('/search/')
+            return redirect(reverse('webapp_flatswapp:search'))
     return render(request, 'webapp_flatswapp/search.html')

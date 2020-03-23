@@ -14,7 +14,7 @@ Add a Category
 
 	<body>-->
 		<h1>Add a Category</h1>
-		<div>
+		<div class="col-sm-4 mx-auto">
 			<form id="category_form" method="post" action="/flatswapp/add_category/">
 				{% csrf_token %}
 				{% for hidden in form.hidden_fields %}
