@@ -9,8 +9,7 @@ from django.contrib.auth import logout
 from django.db.models import Q
 from django.http import *
 from .models import *
-import postcodes_io_api 
-from webapp_flatswapp.forms import UserForm, UserProfileForm, CategoryForm, PageForm
+from webapp_flatswapp.forms import *
 
 
 # Create your views here.
@@ -38,7 +37,33 @@ def show_category(request, category_name_slug):
         context_dict['pages'] = None
     return render(request, 'webapp_flatswapp/category.html', context=context_dict)
 
-@login_required    
+@login_required
+def add_property_view(request):
+    if request.method == 'POST':
+        form = PropertyForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            #form.save()
+            for field in request.FILES.keys():
+                for formfile in request.FILES.getlist(field):
+                    img = Property(picture = formfile)
+                    img.save()
+            form.save()
+            return redirect('/flatswapp/success')
+    else:
+        form = PropertyForm()
+    return render(request, 'webapp_flatswapp/add_category.html', {'form' : form})
+
+def success(request):
+    return HttpResponse('Property added successfully')
+
+@login_required
+def display_property_view(request):
+    if request.method == 'GET':
+        prop = Property.objects.all()
+        return render(request, 'webapp_flatswapp/show_property.html', {'home_images' : prop})
+
+@login_required
 def add_category(request):
     form = CategoryForm()
     if request.method == 'POST':

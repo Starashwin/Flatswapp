@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from webapp_flatswapp.models import UserProfile, Page, Category
+from webapp_flatswapp.models import *
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'list-group-item','placeholder':'Password'}), label='')
@@ -26,21 +26,21 @@ class Search(forms.ModelForm):
     class Meta:
         fields = ('search',)
         
-class CategoryForm(forms.ModelForm):
-    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
-    name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
-    address=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Address'}), label='')
-    n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
-    furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
-    rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
+#class CategoryForm(forms.ModelForm):
+#    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+#    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+#    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+#    name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
+#    address=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Address'}), label='')
+#    n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
+#    furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
+#    rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
 
     # An inline class to provide additional information on the form.
-    class Meta:
+#    class Meta:
     # Provide an association between the ModelForm and a model
-        model = Category
-        fields = ('name','address','n_bedrooms','furnished','picture','rent',)
+#        model = Category
+#        fields = ['name','address','n_bedrooms','furnished','picture','rent',]
 
 class PageForm(forms.ModelForm):
     title = forms.CharField(max_length=128,help_text="Please enter the title of the page.")
@@ -69,4 +69,20 @@ class PageForm(forms.ModelForm):
             cleaned_data['url'] = url
             
         return cleaned_data
-        
+
+class PropertyForm(forms.ModelForm):
+    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+    name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
+    address=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Address'}), label='')
+    n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
+    furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
+    rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
+    picture = models.ImageField()
+    #picture = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    # An inline class to provide additional information on the form.
+    class Meta:
+    # Provide an association between the ModelForm and a model
+        model = Property
+        fields = ['name','address','n_bedrooms','furnished','picture','rent',]
