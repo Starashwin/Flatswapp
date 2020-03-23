@@ -11,4 +11,5 @@ class LocationsAdmin(admin.ModelAdmin):
     }
 
 admin.site.register(UserProfile)
+admin.site.register(Property)
 # Register your models here.
