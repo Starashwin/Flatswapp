@@ -13,4 +13,16 @@
 		<br />
 		<input type="submit" value="submit" />
 	</form>
+
+{% if sr %}	
+<ul>
+  {% for property in sr %}
+    <li>
+      <img src="{{ property.picture }}" alt="Picture of a Cat" /> 
+    </li>
+  {% endfor %}
+</ul>
+{% else %}	
+<p>Not found</p>
+{% endif %}
 {% endblock %}

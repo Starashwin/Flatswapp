@@ -14,7 +14,7 @@ Add a Page
 
 	<body>-->
 		<h1>Add a Page</h1>
-		<div>
+		<div class="col-sm-4 mx-auto">
 			<form id="page_form" method="post" action="/flatswapp/category/{{ category.slug }}/add_page/">
 				{% csrf_token %}
 				{% for hidden in form.hidden_fields %}
