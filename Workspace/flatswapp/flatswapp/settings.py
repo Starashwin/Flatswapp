@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'webapp_flatswapp',
     'phonenumber_field',
     'social_django',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

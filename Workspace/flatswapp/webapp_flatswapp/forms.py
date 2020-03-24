@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from webapp_flatswapp.models import *
+import requests
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'list-group-item','placeholder':'Password'}), label='')
@@ -74,15 +75,28 @@ class PropertyForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+
     name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
-    address=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Address'}), label='')
+    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Address'}), label='')
     n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
     furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
     rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
-    picture = models.ImageField()
+    cover = models.ImageField()
+    
+    longitude=forms.FloatField(widget=forms.HiddenInput(), initial=0)
+    latitude=forms.FloatField(widget=forms.HiddenInput(), initial=0)
+    # # print(form['postcode'].value())
+    # url = 'http://api.postcodes.io/postcodes/%s'%(postcode)
+    # data = requests.get(url).json()
+    # print(data)
+    # if data['status']==200:
+        # print("Working2")
+        # data=data['result']
+        # longitude = data['longitude']
+        # latitude = data['latitude']
     #picture = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     # An inline class to provide additional information on the form.
     class Meta:
     # Provide an association between the ModelForm and a model
         model = Property
-        fields = ['name','address','n_bedrooms','furnished','picture','rent',]
+        fields = ['name','postcode','n_bedrooms','furnished','cover','rent',]

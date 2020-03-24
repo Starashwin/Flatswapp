@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Add a Category
+Add a Property
 {% endblock %}
 
 {% block body_block %}
@@ -13,9 +13,9 @@ Add a Category
 	</head>
 
 	<body>-->
-		<h1>Add a Category</h1>
+		<h1>Add a Property</h1>
 		<div class="col-sm-4 mx-auto">
-			<form id="category_form" method="post" enctype="multipart/form-data"<!--action="/flatswapp/add_category/"-->>
+			<form id="property_form" method="post" action="{% url 'webapp_flatswapp:add_property' %}" enctype="multipart/form-data"> <!--action="/flatswapp/add_category/"-->
 				{% csrf_token %}
 				{% for hidden in form.hidden_fields %}
 					{{ hidden }}
@@ -25,7 +25,7 @@ Add a Category
 					{{ field.help_text }}
 					{{ field }}
 				{% endfor %}
-				<input type="submit" name="submit" value="Create Category" />
+				<input type="submit" name="submit" value="Create Property" />
 			</form>
 		</div>
 {% endblock %}

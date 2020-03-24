@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
-from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -10,7 +9,8 @@ from django.db.models import Q
 from django.http import *
 from .models import *
 from webapp_flatswapp.forms import *
-
+from .filters import PropertyFilter
+import requests
 
 # Create your views here.
 
@@ -38,21 +38,22 @@ def show_category(request, category_name_slug):
     return render(request, 'webapp_flatswapp/category.html', context=context_dict)
 
 @login_required
-def add_property_view(request):
-    if request.method == 'POST':
-        form = PropertyForm(request.POST, request.FILES)
+# def add_property(request):
+    # if request.method == 'POST':
+        # form = PropertyForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            #form.save()
-            for field in request.FILES.keys():
-                for formfile in request.FILES.getlist(field):
-                    img = Property(picture = formfile)
-                    img.save()
-            form.save()
-            return redirect('/flatswapp/success')
-    else:
-        form = PropertyForm()
-    return render(request, 'webapp_flatswapp/add_category.html', {'form' : form})
+        # if form.is_valid():
+            # #form.save()
+            # form.save(commit=False)
+            # for field in request.FILES.keys():
+                # for formfile in request.FILES.getlist(field):
+                    # img = Property(picture = formfile)
+                    # img.save()
+            # form.save()
+            # return redirect('/flatswapp/success')
+    # else:
+        # form = PropertyForm()
+    # return render(request, 'webapp_flatswapp/add_property.html', {'form' : form})
 
 def success(request):
     return HttpResponse('Property added successfully')
@@ -64,14 +65,24 @@ def display_property_view(request):
         return render(request, 'webapp_flatswapp/show_property.html', {'home_images' : prop})
 
 @login_required
-def add_category(request):
-    form = CategoryForm()
+def add_property(request):
+    form = PropertyForm()
     if request.method == 'POST':
-        form = CategoryForm(request.POST,request.FILES)
-        # Have we been provided with a valid form?
+        form = PropertyForm(request.POST,request.FILES)
+        # # Have we been provided with a valid form?
         if form.is_valid():
-            if 'picture' in request.FILES:
-                form.picture = request.FILES['picture']
+            print(form['postcode'].value())
+            url = 'http://api.postcodes.io/postcodes/%s'%(form['postcode'].value())
+            data = requests.get(url).json()
+            print(data['status'])
+            if data['status']==200:
+                print("Working2")
+                data=data['result']
+                print(data['longitude'])
+                form.longitude = data['longitude']
+                form.latitude = data['latitude']
+            # if 'picture' in request.FILES:
+                # form.picture = request.FILES['picture']
             form.save(commit=True)
             # Save the new category to the database.
 
@@ -84,7 +95,7 @@ def add_category(request):
             print(form.errors)
     # Will handle the bad form, new form, or no form supplied cases.
     # Render the form with error messages (if any).
-    return render(request, 'webapp_flatswapp/add_category.html', {'form': form})
+    return render(request, 'webapp_flatswapp/add_property.html', {'form': form})
 
 @login_required    
 def add_page(request, category_name_slug):
@@ -164,13 +175,18 @@ def user_logout(request):
     logout(request)
     return redirect(reverse('webapp_flatswapp:index'))
 
+# def search(request):
+    # if request.method== 'POST':
+        # search_string = request.POST['search_string']
+        # if search_string:
+            # match = Property.objects.filter(Q(name__icontains=search_string))
+            # if match:
+                # return render(request, 'webapp_flatswapp/search.html', {'sr':match})
+        # else:
+            # return redirect(reverse('webapp_flatswapp:search'))
+    # return render(request, 'webapp_flatswapp/search.html')
+
 def search(request):
-    if request.method== 'POST':
-        search_string = request.POST['search_string']
-        if search_string:
-            match = Category.objects.filter(Q(name__icontains=search_string))
-            if match:
-                return render(request, 'webapp_flatswapp/search.html', {'sr':match})
-        else:
-            return redirect(reverse('webapp_flatswapp:search'))
-    return render(request, 'webapp_flatswapp/search.html')
+    property_list = Property.objects.all()
+    property_filter = PropertyFilter(request.GET, queryset=property_list)
+    return render(request, 'webapp_flatswapp/search.html', {'filter': property_filter})

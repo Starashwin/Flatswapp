@@ -33,27 +33,36 @@ class Locations(models.Model):
 #    rent=models.IntegerField(default=0)
 #    picture=models.ImageField(upload_to='home_images/', blank=True)
 
+    
 class Property(models.Model):
-    id = models.AutoField(primary_key=True)
+
+        
+    property_id = models.AutoField(primary_key=True)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField()
     name=models.TextField()
-    address=models.TextField(default='')
+    postcode=models.TextField(default='')
     n_bedrooms=models.IntegerField(default=0)
     furnished=models.TextField(default='')
     rent=models.IntegerField(default=0)
-    picture=models.ImageField(upload_to='home_images/', blank=True)
+    cover=models.ImageField(upload_to='home_images/', blank=True)
+    longitude=models.FloatField(default=0)
+    latitude=models.FloatField(default=0)
     
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.id)
-        #super(Property, self).save(*args, **kwargs)
-
+    #def save(self, *args, **kwargs):
+    #    self.slug = slugify(self.id)
+    #    super(Property, self).save(*args, **kwargs)
+    
     class Meta:
         verbose_name_plural = 'Properties'
 
     def __str__(self):
         return self.id
+        
+class User_Property(models.Model):
+    property_id = models.ForeignKey(Property, on_delete=models.CASCADE)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Page(models.Model):
     #category = models.ForeignKey(Category, on_delete=models.CASCADE)

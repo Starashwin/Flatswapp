@@ -1,28 +1,13 @@
 {% extends 'webapp_flatswapp/base.html' %}
-{% load staticfiles %}
-
-{% block title_block %}
-	Search Page
-{% endblock %}
 
 {% block body_block %}
-	<h1>Search Box</h1>
-	<form method="post" action="{% url 'webapp_flatswapp:search' %}">
-	{% csrf_token %}
-		Search: <input type="text" name="search_string" value="" size="50" />
-		<br />
-		<input type="submit" value="submit" />
-	</form>
-
-{% if sr %}	
-<ul>
-  {% for property in sr %}
-    <li>
-      <img src="{{ property.picture }}" alt="Picture of a Cat" /> 
-    </li>
+  <form method="get" style="margin-top:70px">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+  {% for property in filter.qs %}
+    <li>{{ property.name }} - {{ property.longitude }} - {{ property.latitude }}</li>
   {% endfor %}
-</ul>
-{% else %}	
-<p>Not found</p>
-{% endif %}
+  </ul>
 {% endblock %}

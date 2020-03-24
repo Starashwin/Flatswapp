@@ -21,21 +21,21 @@ Flatswapp
 
 	
   <div class="row">
-	  <div class="col-sm-4" style="margin-top:50px" >
+	  <div class="col-sm-4" style="margin-top:70px" >
 
 		  <h1 class="display-5">My Details</h1>
 		  <ul class="list-group ">
 			  <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
 			  <li class="list-group-item"><strong>Mobile:</strong> {{ user.profile.mobile }}</li>
 			  <li class="list-group-item"><strong>Address:</strong> {{ user.profile.address }}</li>
-			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_category' %}"><strong>Add a flat</strong></a>
+			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Add a flat</strong></a>
 			  <a class="list-group-item" href="{% url 'webapp_flatswapp:search' %}"><strong>Search a flat</strong></a>
-			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_category' %}"><strong>Shortlist</strong></a>
+			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Shortlist</strong></a>
 			</ul>
 
 	  </div>
 
-	  <div class="col">
+	  <div class="col" style="margin-top:70px" >
 		<!-- Example row of columns -->
 		<h1 class="heading"> Customer Experience</h1>
 		<div class="row">
