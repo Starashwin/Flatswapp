@@ -23,9 +23,9 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('mobile', 'picture','postcode','address',)
 
-class Search(forms.ModelForm):
-    class Meta:
-        fields = ('search',)
+# class Search(forms.ModelForm):
+    # class Meta:
+        # fields = ('search',)
         
 #class CategoryForm(forms.ModelForm):
 #    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -69,19 +69,23 @@ class PageForm(forms.ModelForm):
             url = f'http://{url}'
             cleaned_data['url'] = url
             
-        return cleaned_data
-
+        return cleaned_data    
+    
 class PropertyForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
-    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Address'}), label='')
+    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Postcode','onchange':"javascript:loadDoc();"}), label='')
     n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
     furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
     rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
-    cover = models.ImageField()
+    cover = forms.ImageField()
+    outdata = forms.DateField(widget=forms.DateInput(attrs={'class' : 'list-group-item input-sm','id':'datepicker','style':'height:50px;','placeholder':'Moving Out Date'}), label='')
+    description = forms.CharField(widget=forms.Textarea(attrs={'class' : 'list-group-item','style' : 'height:100px','placeholder':'Description'}), label='')
+    
+    #id="datepicker" class="form-control" data-type="datepicker" data-guid="02d4517a-7236-bb43-2b2c-1dea160fd41c" data-datepicker="true"
     
     longitude=forms.FloatField(widget=forms.HiddenInput(), initial=0)
     latitude=forms.FloatField(widget=forms.HiddenInput(), initial=0)
@@ -99,4 +103,4 @@ class PropertyForm(forms.ModelForm):
     class Meta:
     # Provide an association between the ModelForm and a model
         model = Property
-        fields = ['name','postcode','n_bedrooms','furnished','cover','rent',]
+        fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','longitude','latitude','cover','description']

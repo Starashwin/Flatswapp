@@ -15,7 +15,10 @@ import requests
 # Create your views here.
 
 def index(request):
-    return render(request, 'webapp_flatswapp/index.html')
+    prop_slider=Property.objects.order_by('-views')[:3]
+    context_dict = {}
+    context_dict['properties'] = prop_slider
+    return render(request, 'webapp_flatswapp/index.html',context=context_dict)
 
 def myaccount(request):
     return render(request, 'webapp_flatswapp/myaccount.html')
@@ -24,18 +27,23 @@ def about(request):
     response = render(request, 'webapp_flatswapp/about.html')
     return response
 
-def show_category(request, category_name_slug):
+# def shortlist(request)
+    # return render(request, 'webapp_flatswapp/shortlist.html')
+
+def show_property(request, id_slug):
 
     context_dict = {}
     try:
-        category = Category.objects.get(slug=category_name_slug)
-        pages = Page.objects.filter(category=category)
-        context_dict['pages'] = pages
-        context_dict['category'] = category
-    except Category.DoesNotExist:
-        context_dict['category'] = None
-        context_dict['pages'] = None
-    return render(request, 'webapp_flatswapp/category.html', context=context_dict)
+        property = Property.objects.get(slug=id_slug)
+        property.views+=1
+        property.save()
+        #pages = Page.objects.filter(property=property)
+        #context_dict['pages'] = pages
+        context_dict['property'] = property
+    except property.DoesNotExist:
+        context_dict['property'] = None
+        #context_dict['pages'] = None
+    return render(request, 'webapp_flatswapp/property.html', context=context_dict)
 
 @login_required
 # def add_property(request):
@@ -71,19 +79,22 @@ def add_property(request):
         form = PropertyForm(request.POST,request.FILES)
         # # Have we been provided with a valid form?
         if form.is_valid():
-            print(form['postcode'].value())
-            url = 'http://api.postcodes.io/postcodes/%s'%(form['postcode'].value())
-            data = requests.get(url).json()
-            print(data['status'])
-            if data['status']==200:
-                print("Working2")
-                data=data['result']
-                print(data['longitude'])
-                form.longitude = data['longitude']
-                form.latitude = data['latitude']
+            form.save(commit=True)
+            form.save()
+            # print(form['postcode'].value())
+            # url = 'http://api.postcodes.io/postcodes/%s'%(form['postcode'].value())
+            # data = requests.get(url).json()
+            # print(data['status'])
+            # if data['status']==200:
+                # print("Working2")
+                # data=data['result']
+                # print(data['longitude'])
+                # form.cleaned_data['longitude'] = data['longitude']
+                # form.cleaned_data['latitude'] = data['latitude']
+            
             # if 'picture' in request.FILES:
                 # form.picture = request.FILES['picture']
-            form.save(commit=True)
+            
             # Save the new category to the database.
 
             # Now that the category is saved, we could confirm this.
@@ -187,6 +198,9 @@ def user_logout(request):
     # return render(request, 'webapp_flatswapp/search.html')
 
 def search(request):
-    property_list = Property.objects.all()
-    property_filter = PropertyFilter(request.GET, queryset=property_list)
-    return render(request, 'webapp_flatswapp/search.html', {'filter': property_filter})
+    property_initial = PropertyFilter(request.GET, queryset=Property.objects.none())
+    if request.method== 'POST':
+        property_list = Property.objects.all()
+        property_filter = PropertyFilter(request.POST, queryset=property_list)
+        return render(request, 'webapp_flatswapp/search.html', {'filter': property_filter})
+    return render(request, 'webapp_flatswapp/search.html', {'filter': property_initial})

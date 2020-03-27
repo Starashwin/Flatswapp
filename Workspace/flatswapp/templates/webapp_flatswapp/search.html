@@ -1,13 +1,104 @@
 {% extends 'webapp_flatswapp/base.html' %}
+{% load widget_tweaks %}
 
 {% block body_block %}
-  <form method="get" style="margin-top:70px">
+  <!--<form method="get" style="margin-top:70px">
     {{ filter.form.as_p }}
     <button type="submit">Search</button>
   </form>
   <ul>
   {% for property in filter.qs %}
-    <li>{{ property.name }} - {{ property.longitude }} - {{ property.latitude }}</li>
+    <li>
+	{{ property.slug }} - {{ property.id }} - {{ property.views }} - {{ property.name }} - {{ property.longitude }} - {{ property.latitude }}
+	</li>
   {% endfor %}
-  </ul>
+  </ul>-->
+  
+  <form method="POST" style="margin-top:70px">
+  {% csrf_token %}
+    <div class="well">
+      <h4 style="margin-top: 0">Filter</h4>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.name.label_tag }}
+          {% render_field filter.form.name class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.postcode.label_tag }}
+          {% render_field filter.form.postcode class="form-control" %}
+        </div>
+		<div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.furnished.label_tag }}
+          {% render_field filter.form.furnished class="form-control" %}
+        </div>
+		
+		<div class="form-group col-sm-4 col-md-3">
+		  {{ filter.form.indate.label_tag }}
+		  {% render_field filter.form.indate class="form-control" id="datepicker" width="276" %}
+			<script>
+				$('#datepicker').datepicker({
+					uiLibrary: 'bootstrap4'
+				});
+			</script>
+		</div>
+
+        <!--<div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.year_joined.label_tag }}
+          {% render_field filter.form.year_joined class="form-control" %}
+        </div>
+        <div class="form-group col-sm-8 col-md-6">
+          {{ filter.form.groups.label_tag }}
+          <div>
+            {% for choice in filter.form.groups %}
+              <label class="checkbox-inline">
+                {{ choice.tag }} {{ choice.choice_label }}
+              </label>
+            {% endfor %}
+          </div>
+        </div>-->
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search"></span> Search
+      </button>
+    </div>
+  </form>
+
+  {% if filter.qs %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+	    <th>Picture</th>
+        <th>id</th>
+        <th>First name</th>
+        <th>Views</th>
+        <th>Date joined</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for property in filter.qs %}
+        <tr>
+		  <td style="width: 420px; height: 320px;">
+			<img src="{{ MEDIA_URL }}{{ property.cover }}" alt="" height="300" width="400" /></td>
+          <td>{{ property.slug }}</td>
+          <td>{{ property.name }}</td>
+          <td>{{ property.views }}</td>
+          <td>{{ property.latitude }}</td>
+		  
+          <!--<td>
+            {% for group in user.groups.all %}
+              {{ group }}
+            {% empty %}
+              <em class="text-muted">No group</em>
+            {% endfor %}
+          </td>-->
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No data</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
 {% endblock %}

@@ -16,11 +16,12 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     #path('search/', views.search, name = 'search'),
     path('myaccount/', views.myaccount, name = 'myaccount'),
+    #path('shortlist/', views.shortlist, name = 'shortlist'),
     
     path('search/', views.search, name='search'),
     
     #path('category/<slug:category_name_slug>/add_page/',views.add_page, name='add_page'),
-    path('category/<slug:category_name_slug>/',views.show_category, name='show_category'),
+    path('property/<slug:id_slug>/',views.show_property, name='show_property'),
     #path('add_property/', views.add_property, name='add_property'),
     path('add_property/', views.add_property, name = 'add_property'),
     path('success/', views.success, name = 'success'),
