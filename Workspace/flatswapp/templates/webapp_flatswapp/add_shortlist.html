@@ -10,7 +10,7 @@
 	{% endif %}
 {% endblock %}
 
-{% block body_block %}
+<!--{% block body_block %}
 	{% if property %}
 	<h1>{{ property.name }}</h1>
 	{% if pages %}
@@ -26,22 +26,12 @@
 	
 	{% if user.is_authenticated %}
 	<a href="{{ property.slug }}">Add Page</a> <br />
-	<button onclick="javascript:loadDoc()">Add to Shortlist</button>
 	{% endif %}	
 	{% else %}
 	The specified category does not exist.
 	{% endif %}
 	
-	<script>
-		function loadDoc() {
-		  alert("Working1");
-		  var xhttp = new XMLHttpRequest();
-		  xhttp.open("GET", "http://localhost:8000/flatswapp/property/{{ property.slug }}/add_shortlist", true);
-		  alert("Working4");
-		  xhttp.send();
-		}
-	</script>
-{% endblock %}
+{% endblock %}-->
 <!--
 <!DOCTYPE html>
 <html>

@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -21,7 +24,9 @@ def index(request):
     return render(request, 'webapp_flatswapp/index.html',context=context_dict)
 
 def myaccount(request):
-    return render(request, 'webapp_flatswapp/myaccount.html')
+    context_dict = {}
+    context_dict['shortlist'] = Shortlist.objects.filter(user=request.user)
+    return render(request, 'webapp_flatswapp/myaccount.html',context=context_dict)
     
 def about(request):
     response = render(request, 'webapp_flatswapp/about.html')
@@ -73,14 +78,35 @@ def display_property_view(request):
         return render(request, 'webapp_flatswapp/show_property.html', {'home_images' : prop})
 
 @login_required
+def add_shortlist(request,id_slug):
+    if request.method == 'GET':
+        shortlisted = False
+        us=User.objects.get(username=request.user.username)
+        pr=Property.objects.get(slug=id_slug)
+        context_dict = {}
+        context_dict['property'] = pr
+        sl = Shortlist.objects.create(user=us,property_id=pr)
+        sl.save()
+        # shortlisting=User.objects.get(username=request.user.username),shortlisted=Property.objects.get(slug=id_slug))
+        shortlisted = True
+        return render(request,'webapp_flatswapp/property.html',context={'property': pr,  'shortlisted': shortlisted})
+        
+@login_required
 def add_property(request):
     form = PropertyForm()
     if request.method == 'POST':
-        form = PropertyForm(request.POST,request.FILES)
+        form = PropertyForm(request.POST,request.FILES,request.user)
+        # print(request.user)
+        
+        
         # # Have we been provided with a valid form?
         if form.is_valid():
-            form.save(commit=True)
-            form.save()
+            fs=form.save(commit=False)
+            fs.user=User.objects.get(username=request.user.username)
+            fs.save()
+            
+            # form.user=request.user
+            
             # print(form['postcode'].value())
             # url = 'http://api.postcodes.io/postcodes/%s'%(form['postcode'].value())
             # data = requests.get(url).json()
@@ -204,3 +230,18 @@ def search(request):
         property_filter = PropertyFilter(request.POST, queryset=property_list)
         return render(request, 'webapp_flatswapp/search.html', {'filter': property_filter})
     return render(request, 'webapp_flatswapp/search.html', {'filter': property_initial})
+
+@login_required    
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('/flatswapp/change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'webapp_flatswapp/change_password.html', {'form': form})

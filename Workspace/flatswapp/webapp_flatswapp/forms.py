@@ -12,8 +12,7 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'password',)
         
-#<input type="tel" name="mobile" value="+154889" maxlength="128" required="" id="id_mobile">
-#<input type="tel" name="mobile" value="+15416" class="list-group-item" placeholder="Phone number" required="" id="id_mobile">
+
 class UserProfileForm(forms.ModelForm):
     mobile = forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','type':'tel','placeholder':'Phone number (eg. +44123456789)'}), label='')
     postcode= forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item', 'id':'customInput','placeholder':'Post Code','onchange':"javascript:document.getElementById('dummyButton').click();"}), label='')
@@ -22,26 +21,6 @@ class UserProfileForm(forms.ModelForm):
     class Meta:     
         model = UserProfile
         fields = ('mobile', 'picture','postcode','address',)
-
-# class Search(forms.ModelForm):
-    # class Meta:
-        # fields = ('search',)
-        
-#class CategoryForm(forms.ModelForm):
-#    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-#    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-#    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
-#    name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
-#    address=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Address'}), label='')
-#    n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
-#    furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
-#    rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
-
-    # An inline class to provide additional information on the form.
-#    class Meta:
-    # Provide an association between the ModelForm and a model
-#        model = Category
-#        fields = ['name','address','n_bedrooms','furnished','picture','rent',]
 
 class PageForm(forms.ModelForm):
     title = forms.CharField(max_length=128,help_text="Please enter the title of the page.")
@@ -75,7 +54,8 @@ class PropertyForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
-
+    user = forms.CharField(widget=forms.HiddenInput(), required=False)
+    
     name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
     postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Postcode','onchange':"javascript:loadDoc();"}), label='')
     n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')

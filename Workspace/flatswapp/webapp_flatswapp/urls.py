@@ -16,8 +16,8 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     #path('search/', views.search, name = 'search'),
     path('myaccount/', views.myaccount, name = 'myaccount'),
-    #path('shortlist/', views.shortlist, name = 'shortlist'),
-    
+    path('property/<slug:id_slug>/add_shortlist/', views.add_shortlist, name = 'add_shortlist'),
+    path('change_password/',views.change_password, name='change_password'),
     path('search/', views.search, name='search'),
     
     #path('category/<slug:category_name_slug>/add_page/',views.add_page, name='add_page'),
