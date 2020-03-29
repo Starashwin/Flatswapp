@@ -22,6 +22,7 @@ Add a Property
 				{% for hidden in form.hidden_fields %}
 					{{ hidden }}
 				{% endfor %}
+				
 				{% for field in form.visible_fields %}
 					{{ field.errors }}
 					{{ field.help_text }}
@@ -29,8 +30,8 @@ Add a Property
 				{% endfor %}
 				
 				{{ formset.management_form }}
-				{% for f in formset %}
-					{{ f }}
+				{% for form in formset %}
+					{{ form.as_p }}
 				{% endfor %}
 				
 				<script>

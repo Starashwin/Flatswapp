@@ -100,12 +100,12 @@ def add_property(request):
  
     if request.method == 'POST':
         propertyForm = PropertyForm(request.POST,request.FILES,request.user)
-        formset = ImageFormSet(request.POST or none, request.FILES, queryset=Images.objects.none())
+        formset = ImageFormSet(request.POST, request.FILES, queryset=Images.objects.none())
         
         
         # # Have we been provided with a valid form? check for both forms 
         if propertyForm.is_valid() and formset.is_valid():
-            property_form=PropertyForm.save(commit=False)
+            property_form=propertyForm.save(commit=False)
             property_form.user=User.objects.get(username=request.user.username)
             property_form.save()
             
@@ -147,7 +147,7 @@ def add_property(request):
         formset = ImageFormSet(queryset=Images.objects.none())
     # Will handle the bad form, new form, or no form supplied cases.
     # Render the form with error messages (if any).
-    return render(request, 'webapp_flatswapp/add_property.html', {'propertyForm': propertyForm, 'formset': formset})
+    return render(request, 'webapp_flatswapp/add_property.html', {'form': propertyForm, 'formset': formset})
 
 @login_required    
 def add_page(request, category_name_slug):
