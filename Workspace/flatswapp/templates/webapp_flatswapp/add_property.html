@@ -22,11 +22,18 @@ Add a Property
 				{% for hidden in form.hidden_fields %}
 					{{ hidden }}
 				{% endfor %}
+				
 				{% for field in form.visible_fields %}
 					{{ field.errors }}
 					{{ field.help_text }}
 					{{ field }}
 				{% endfor %}
+				
+				{{ formset.management_form }}
+				{% for form in formset %}
+					{{ form.as_p }}
+				{% endfor %}
+				
 				<script>
 				$('#datepicker').datepicker({
 					uiLibrary: 'bootstrap4'

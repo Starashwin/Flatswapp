@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib import messages
@@ -93,18 +94,29 @@ def add_shortlist(request,id_slug):
         
 @login_required
 def add_property(request):
-    form = PropertyForm()
+    ImageFormSet = modelformset_factory(Images, form=PropertyImageForm, extra=3)
+    #formset for uploading multiple images, extra means the number of images that can be uploaded
+    propertyForm = PropertyForm()
+ 
     if request.method == 'POST':
-        form = PropertyForm(request.POST,request.FILES,request.user)
-        # print(request.user)
+        propertyForm = PropertyForm(request.POST,request.FILES,request.user)
+        formset = ImageFormSet(request.POST, request.FILES, queryset=Images.objects.none())
         
         
-        # # Have we been provided with a valid form?
-        if form.is_valid():
-            fs=form.save(commit=False)
-            fs.user=User.objects.get(username=request.user.username)
-            fs.save()
+        # # Have we been provided with a valid form? check for both forms 
+        if propertyForm.is_valid() and formset.is_valid():
+            property_form=propertyForm.save(commit=False)
+            property_form.user=User.objects.get(username=request.user.username)
+            property_form.save()
             
+            for form in formset.cleaned_data:
+            #in case user does not upload 10 photos webpage won't crash
+                if form:
+                    image = form['image']
+                    photo = Images(property=property_form, image=image)
+                    photo.save()
+            messages.success(request, "Self written successful!")
+            return HttpResponseRedirect("/flatswapp/")
             # form.user=request.user
             
             # print(form['postcode'].value())
@@ -125,14 +137,17 @@ def add_property(request):
 
             # Now that the category is saved, we could confirm this.
             # For now, just redirect the user back to the index view.
-            return redirect('/flatswapp/')
         else:
             # The supplied form contained errors -
             # just print them to the terminal.
-            print(form.errors)
+            print(propertyForm.errors, formset.errors)
+            formset = ImageFormSet()
+    else:
+        propertyForm = PropertyForm()
+        formset = ImageFormSet(queryset=Images.objects.none())
     # Will handle the bad form, new form, or no form supplied cases.
     # Render the form with error messages (if any).
-    return render(request, 'webapp_flatswapp/add_property.html', {'form': form})
+    return render(request, 'webapp_flatswapp/add_property.html', {'form': propertyForm, 'formset': formset})
 
 @login_required    
 def add_facility(request, id_slug):
