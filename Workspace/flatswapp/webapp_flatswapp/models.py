@@ -42,13 +42,20 @@ class Property(models.Model):
             self.slug = slugify(self.name) + "-" + str(self.property_id)
             self.save()
 
-    
     class Meta:
         verbose_name_plural = 'Properties'
 
     def __str__(self):
-        return self.property_id
+        return str(self.property_id)
+
+def get_image_filename(instance, filename):
+    title = instance.post.title
+    slug = slugify(title)
+    return "post_images/%s-%s" % (slug, filename)
         
+class Images(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, default=None)
+    image = models.ImageField(upload_to=get_image_filename, verbose_name='Image')
 
 
 # class Locations(models.Model):

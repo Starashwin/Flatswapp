@@ -84,3 +84,9 @@ class PropertyForm(forms.ModelForm):
     # Provide an association between the ModelForm and a model
         model = Property
         fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','longitude','latitude','cover','description']
+        
+class PropertyImageForm(forms.ModelForm):
+    image = forms.ImageField(label='Image')
+    class Meta:
+        model = Images
+        fields = ('image', )

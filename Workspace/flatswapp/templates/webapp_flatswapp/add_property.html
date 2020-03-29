@@ -27,6 +27,12 @@ Add a Property
 					{{ field.help_text }}
 					{{ field }}
 				{% endfor %}
+				
+				{{ formset.management_form }}
+				{% for f in formset %}
+					{{ f }}
+				{% endfor %}
+				
 				<script>
 				$('#datepicker').datepicker({
 					uiLibrary: 'bootstrap4'
