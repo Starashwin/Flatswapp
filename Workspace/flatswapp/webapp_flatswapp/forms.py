@@ -93,7 +93,7 @@ class PropertyForm(forms.ModelForm):
     # Provide an association between the ModelForm and a model
         model = Property
 
-         fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','outward','nearest','neighbour','cover','description']
+        fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','outward','nearest','neighbour','cover','description']
         
 class PropertyImageForm(forms.ModelForm):
     image = forms.ImageField(label='Image')
