@@ -79,8 +79,8 @@
       {% for property in filter.qs %}
         <tr>
 		  <td style="width: 420px; height: 320px;">
-			<img src="{{ MEDIA_URL }}{{ property.cover }}" alt="" height="300" width="400" /></td>
-          <td>{{ property.slug }}</td>
+			<img  src="{{ MEDIA_URL }}{{ property.cover }}" alt="" height="300" width="400" /></td>
+          <td><a class="list-group-item" href="/flatswapp/property/{{ property.slug }}"><strong>Property link</strong></a></td>
           <td>{{ property.name }}</td>
           <td>{{ property.views }}</td>
           <td>{{ property.user}}</td>

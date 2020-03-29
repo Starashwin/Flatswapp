@@ -20,7 +20,7 @@ urlpatterns = [
     path('change_password/',views.change_password, name='change_password'),
     path('search/', views.search, name='search'),
     
-    #path('category/<slug:category_name_slug>/add_page/',views.add_page, name='add_page'),
+    path('property/<slug:id_slug>/add_facility/',views.add_facility, name='add_facility'),
     path('property/<slug:id_slug>/',views.show_property, name='show_property'),
     #path('add_property/', views.add_property, name='add_property'),
     path('add_property/', views.add_property, name = 'add_property'),

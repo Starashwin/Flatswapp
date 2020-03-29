@@ -135,33 +135,33 @@ def add_property(request):
     return render(request, 'webapp_flatswapp/add_property.html', {'form': form})
 
 @login_required    
-def add_page(request, category_name_slug):
+def add_facility(request, id_slug):
     try:
-        category = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        category = None
+        property = Property.objects.get(slug=id_slug)
+    except Property.DoesNotExist:
+        property = None
     # You cannot add a page to a Category that does not exist...
-    if category is None:
+    if property is None:
         return redirect('/webapp_flatswapp/')
         
-    form = PageForm()
+    form = FacilityForm()
 
     if request.method == 'POST':
         form = PageForm(request.POST)
 
         if form.is_valid():
-            if category:
-                page = form.save(commit=False)
-                page.category = category
-                page.views = 0
-                page.save()
+            if property:
+                facility = form.save(commit=False)
+                facility.property = property
+                facility.views = 0
+                facility.save()
                 
-                return redirect(reverse('webapp_flatswapp:show_category',kwargs={'category_name_slug':category_name_slug}))
+                return redirect(reverse('webapp_flatswapp:show_property',kwargs={'id_slug':id_slug}))
         else:
             print(form.errors)
             
-    context_dict = {'form': form, 'category': category}
-    return render(request, 'webapp_flatswapp/add_page.html', context=context_dict)
+    context_dict = {'form': form, 'property': property}
+    return render(request, 'webapp_flatswapp/add_facility.html', context=context_dict)
     
 def register(request):
     registered = False
