@@ -32,4 +32,4 @@ class PropertyFilter(django_filters.FilterSet):
          #groups = CombinedGroup(filters=['name', 'postcode'], combine=operator.or_)
     
     def filter_by_all_name_fields(self, queryset, name, value):
-        return queryset.filter(Q(name__icontains=value) | Q(postcode__icontains=value) | Q(description__icontains=value))
+        return queryset.filter(Q(name__icontains=value) | Q(postcode__icontains=value) | Q(description__icontains=value) | Q(nearest__icontains=value)| Q(neighbour__icontains=value))

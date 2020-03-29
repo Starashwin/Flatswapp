@@ -46,23 +46,87 @@ Add a Property
 		</div>
 		
 		<script>
-			function loadDoc() {
-			  <!--alert("Working1");-->
-			  <!--alert("Working3" + "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value);-->
+			function getAPI()
+			{
+			alert("hey");
+				(async () => {
+				   let response = await new Promise(resolve => {
+					  var xhr = new XMLHttpRequest();
+					  xhr.open("GET", "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value, true);
+					  xhr.onload = function(e) {
+						var myObj = JSON.parse(this.responseText);
+						
+						document.getElementById('id_outward').value = myObj.result.outcode;
+						resolve(xhr.response);
+					  };
+					  xhr.onerror = function () {
+						resolve(undefined);
+						console.error("** An error occurred during the XMLHttpRequest");
+					  };
+					  xhr.send();
+				   }) 
+				   getNeighbourhood();
+				   getNearestPostCodes();	
+				})()			
+			};
+			
+
+
+			function getOutward() {
+				alert("Working3" + "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value);
 			  var xhttp = new XMLHttpRequest();
 			  xhttp.onreadystatechange = function() {
 				if (this.status == 200) {
 				var myObj = JSON.parse(this.responseText);
-				document.getElementById('id_longitude').value = myObj.result.longitude;
-				<!--alert(myObj.result.longitude);-->
-				<!--alert("Working2" + document.getElementById('id_longitude').value);-->
-				document.getElementById('id_latitude').value = myObj.result.latitude;
+				document.getElementById('id_outward').value = myObj.result.outcode;
+				alert(myObj.result.longitude);
+				alert("Working2" + document.getElementById('id_longitude').value);
+
 				}
 			  };
-			  xhttp.open("GET", "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value);
-			  <!--alert("Working4" + document.getElementById('id_longitude').value);-->
+			  xhttp.open("GET", "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value,true);
+			  alert("Working4" + document.getElementById('id_longitude').value);
 			  xhttp.send();
-			}
+			};
+			
+			function getNeighbourhood() {
+			  var xhttp = new XMLHttpRequest();
+			  xhttp.onreadystatechange = function() {
+				if (this.status == 200) {
+				var myObj = JSON.parse(this.responseText);
+					document.getElementById('id_neighbour').value = myObj.result.admin_ward;
+					alert(myObj.result.admin_ward);
+				}
+			  };
+			  alert(document.getElementById('id_outward').value);
+			  xhttp.open("GET", "http://api.postcodes.io/outcodes/"+document.getElementById('id_outward').value);
+			  xhttp.send();
+			};
+			
+			function getNearestPostCodes() {
+			  var xhttp = new XMLHttpRequest();
+			  xhttp.onreadystatechange = function() {
+				if (this.status == 200) {
+				var myObj = JSON.parse(this.responseText);
+					var outcodes="";
+					alert("third");
+					var i;
+					for(i=0;i<5;i++)
+					{
+					outcodes+=myObj.result[i].outcode;
+					}
+					document.getElementById('id_nearest').value=outcodes;
+				}
+			  };
+			  alert("third");
+			  alert(document.getElementById('id_outward').value);
+			  xhttp.open("GET", "http://api.postcodes.io/outcodes/"+document.getElementById('id_outward').value+"/nearest");
+			  xhttp.send();
+			};
+
+			
+			
+			
 		</script>
 {% endblock %}
 <!--</body>

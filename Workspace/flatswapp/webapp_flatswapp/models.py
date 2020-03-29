@@ -18,6 +18,15 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
         
+class Facility(models.Model):
+    
+    title = models.CharField(max_length=128)
+    desciption=models.TextField()
+    slug = models.SlugField()
+    
+    def __str__(self):
+        return self.title
+        
 class Property(models.Model):
 
     property_id = models.AutoField(primary_key=True)
@@ -32,10 +41,12 @@ class Property(models.Model):
     furnished=models.TextField(default='')
     rent=models.IntegerField(default=0)
     cover=models.ImageField(upload_to='home_images/', blank=True)
-    longitude=models.FloatField(default=0)
-    latitude=models.FloatField(default=0)
+    outward=models.TextField(default='')
+    nearest=models.TextField(default='')
+    neighbour=models.TextField(default='')
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-
+    facility = models.ManyToManyField(Facility) 
+    
     def save(self, *args, **kwargs):
         super(Property, self).save(*args, **kwargs)
         if not self.slug:
@@ -98,11 +109,3 @@ class Shortlist(models.Model):
     #continue with save, if necessary:
         super(Shortlist, self).save(*args, **kwargs)
     
-class Page(models.Model):
-    #category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    #property_model = models.ForeignKey(Property, on_delete=models.CASCADE) #Check the null thing
-    title = models.CharField(max_length=128)
-    url = models.URLField()
-    views = models.IntegerField(default=0)
-    def __str__(self):
-        return self.title

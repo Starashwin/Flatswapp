@@ -22,33 +22,41 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('mobile', 'picture','postcode','address',)
 
-class PageForm(forms.ModelForm):
-    title = forms.CharField(max_length=128,help_text="Please enter the title of the page.")
-    url = forms.URLField(max_length=200,help_text="Please enter the URL of the page.")
-    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+class FacilityForm(forms.ModelForm):
+    OPTIONS = (
+        ("Electricity", "Electricity"),
+        ("Heating", "Heating"),
+        ("Other", "Other")
+        )
+    title = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,choices=OPTIONS)
+    desciption = forms.CharField(widget=forms.Textarea(attrs={'class' : 'list-group-item','style' : 'height:100px','placeholder':'Description'}), label='')
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
-    class Meta:
-    # Provide an association between the ModelForm and a model
-        model = Page
-    # What fields do we want to include in our form?
-    # This way we don't need every field in the model present.
-    # Some fields may allow NULL values; we may not want to include them.
-    # Here, we are hiding the foreign key.
-    # we can either exclude the category field from the form,
-        exclude = ('category',)
-    # or specify the fields to include (don't include the category field).
-    #fields = ('title', 'url', 'views')
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        url = cleaned_data.get('url')
+    class Meta:     
+        model = UserProfile
+        fields = ('title', 'desciption',)
+    # class Meta:
+    # # Provide an association between the ModelForm and a model
+        # model = Page
+    # # What fields do we want to include in our form?
+    # # This way we don't need every field in the model present.
+    # # Some fields may allow NULL values; we may not want to include them.
+    # # Here, we are hiding the foreign key.
+    # # we can either exclude the category field from the form,
+        # exclude = ('category',)
+    # # or specify the fields to include (don't include the category field).
+    # #fields = ('title', 'url', 'views')
+    # def clean(self):
+        # cleaned_data = self.cleaned_data
+        # url = cleaned_data.get('url')
         
-        # If url is not empty and doesn't start with 'http://',
-        # then prepend 'http://'.
-        if url and not url.startswith('http://'):
-            url = f'http://{url}'
-            cleaned_data['url'] = url
+        # # If url is not empty and doesn't start with 'http://',
+        # # then prepend 'http://'.
+        # if url and not url.startswith('http://'):
+            # url = f'http://{url}'
+            # cleaned_data['url'] = url
             
-        return cleaned_data    
+        # return cleaned_data    
     
 class PropertyForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -57,7 +65,7 @@ class PropertyForm(forms.ModelForm):
     user = forms.CharField(widget=forms.HiddenInput(), required=False)
     
     name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
-    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Postcode','onchange':"javascript:loadDoc();"}), label='')
+    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Postcode','onchange':"javascript:getAPI();"}), label='')
     n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
     furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
     rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
@@ -67,8 +75,9 @@ class PropertyForm(forms.ModelForm):
     
     #id="datepicker" class="form-control" data-type="datepicker" data-guid="02d4517a-7236-bb43-2b2c-1dea160fd41c" data-datepicker="true"
     
-    longitude=forms.FloatField(widget=forms.HiddenInput(), initial=0)
-    latitude=forms.FloatField(widget=forms.HiddenInput(), initial=0)
+    outward=forms.CharField(widget=forms.HiddenInput(), initial='')
+    nearest=forms.CharField(widget=forms.HiddenInput(), initial='')
+    neighbour=forms.CharField(widget=forms.HiddenInput(), initial='')
     # # print(form['postcode'].value())
     # url = 'http://api.postcodes.io/postcodes/%s'%(postcode)
     # data = requests.get(url).json()
@@ -83,7 +92,8 @@ class PropertyForm(forms.ModelForm):
     class Meta:
     # Provide an association between the ModelForm and a model
         model = Property
-        fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','longitude','latitude','cover','description']
+
+         fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','outward','nearest','neighbour','cover','description']
         
 class PropertyImageForm(forms.ModelForm):
     image = forms.ImageField(label='Image')
