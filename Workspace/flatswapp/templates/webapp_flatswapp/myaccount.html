@@ -26,15 +26,22 @@ Flatswapp
 		  <h1 class="display-5">My Details</h1>
 		  <ul class="list-group ">
 			  <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+			  <li class="list-group-item"><strong>Email:</strong> {{ user.profile.email }}</li>
 			  <li class="list-group-item"><strong>Mobile:</strong> {{ user.profile.mobile }}</li>
 			  <li class="list-group-item"><strong>Address:</strong> {{ user.profile.address }}</li>
 			  <a class="list-group-item" href="{% url 'webapp_flatswapp:change_password' %}"><strong>Change password</strong></a>
 			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Add a flat</strong></a>
 			  <a class="list-group-item" href="{% url 'webapp_flatswapp:search' %}"><strong>Search a flat</strong></a>
-			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Shortlist</strong></a>
-			{% for sh in shortlist %}
-			  <li class="list-group-item"><strong>Property:</strong> {{ sh.property_id.slug }}</li>
-			{% endfor %}
+			  
+			  <a class="list-group-item nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Shortlist</strong></a>
+				<div class="dropdown-menu" aria-labelledby="dropdown01">
+					{% for sh in shortlist %}
+					  <a class="dropdown-item" href="/flatswapp/property/{{ sh.property_id.slug }}" >
+					  <strong>Property:</strong> {{ sh.property_id.name }}
+					  </a>
+					{% endfor %}
+				</div>
+
 			</ul>
 
 	  </div>

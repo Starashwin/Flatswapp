@@ -13,8 +13,10 @@ Add a Property
 	</head>
 
 	<body>-->
-		
-		<div class="col-sm-4 mx-auto"  style="margin-top:70px">
+		<div class="row">
+		<div class="col-sm-3 mx-auto"  style="margin-top:70px">
+		</div>
+		<div class="col-md-4 mx-auto"  style="margin-top:70px">
 			<h1>Add a Property</h1>
 			<form id="property_form" method="post" action="{% url 'webapp_flatswapp:add_property' %}" enctype="multipart/form-data"> <!--action="/flatswapp/add_category/"-->
 				
@@ -28,27 +30,44 @@ Add a Property
 					{{ field.help_text }}
 					{{ field }}
 				{% endfor %}
+
 				
-				{{ formset.management_form }}
-				{% for form in formset %}
-					{{ form.as_p }}
-				{% endfor %}
-				
+		</div>
+		
+			<div class="col mx-auto" style="margin-top:70px">
+					<h2> Extra Images </h2>
+					<div>
+					{{ formset.management_form }}
+					{% for form in formset %}
+						{{ form.as_p }}	
+					{% endfor %}
+					</div>
+						<div>
+						<img id="img0" src="http://placehold.it/180" alt="your image" height="180" width="180"/>
+						<img id="img1" src="http://placehold.it/180" alt="your image" height="180" width="180"/>
+						<img id="img2" src="http://placehold.it/180" alt="your image" height="180" width="180"/>
+						</div>
+			</div>
+		</div>
+		
+				<div class="col text-center">
+				<button class="btn btn-lg btn-primary" type="submit">Create Property</button>
+				</div>
+			</form>
 				<script>
 				$('#datepicker').datepicker({
 					uiLibrary: 'bootstrap4'
 					
 				});
 				$('.gj-unselectable').width('400px');
+				<!--input.addEventListener('change', updateImageDisplay);-->
 				</script>
-				<input type="submit" name="submit" value="Create Property" />
-			</form>
+
 		</div>
 		
 		<script>
 			function getAPI()
 			{
-			alert("hey");
 				(async () => {
 				   let response = await new Promise(resolve => {
 					  var xhr = new XMLHttpRequest();
@@ -73,19 +92,15 @@ Add a Property
 
 
 			function getOutward() {
-				alert("Working3" + "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value);
 			  var xhttp = new XMLHttpRequest();
 			  xhttp.onreadystatechange = function() {
 				if (this.status == 200) {
 				var myObj = JSON.parse(this.responseText);
 				document.getElementById('id_outward').value = myObj.result.outcode;
-				alert(myObj.result.longitude);
-				alert("Working2" + document.getElementById('id_longitude').value);
 
 				}
 			  };
 			  xhttp.open("GET", "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value,true);
-			  alert("Working4" + document.getElementById('id_longitude').value);
 			  xhttp.send();
 			};
 			
@@ -95,10 +110,8 @@ Add a Property
 				if (this.status == 200) {
 				var myObj = JSON.parse(this.responseText);
 					document.getElementById('id_neighbour').value = myObj.result.admin_ward;
-					alert(myObj.result.admin_ward);
 				}
 			  };
-			  alert(document.getElementById('id_outward').value);
 			  xhttp.open("GET", "http://api.postcodes.io/outcodes/"+document.getElementById('id_outward').value);
 			  xhttp.send();
 			};
@@ -109,23 +122,57 @@ Add a Property
 				if (this.status == 200) {
 				var myObj = JSON.parse(this.responseText);
 					var outcodes="";
-					alert("third");
 					var i;
 					for(i=0;i<5;i++)
 					{
-					outcodes+=myObj.result[i].outcode;
+					outcodes+=myObj.result[i].outcode+", ";
 					}
 					document.getElementById('id_nearest').value=outcodes;
 				}
 			  };
-			  alert("third");
-			  alert(document.getElementById('id_outward').value);
 			  xhttp.open("GET", "http://api.postcodes.io/outcodes/"+document.getElementById('id_outward').value+"/nearest");
 			  xhttp.send();
 			};
 
+			function updateImage() {
+				var i;
+				
+				for(i = 0; i<2; i++)
+				{
+				if (document.getElementById("id_form-"+i+"-image").value!='')
+				{
+				$("#id_form-"+(i+1)+"-image").show();
+				$("#img"+(i+1)).show();
+				}
+				}
+			}
+			function hide()
+			
+			{
+				var i;
+				
+				for(i = 1; i<3; i++)
+				{
+				$("#id_form-"+(i)+"-image").hide();
+				$("#img"+(i)).hide();
+				}
+			}
 			
 			
+			function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+				alert(input.id.match(/\d+/g));
+				var i = 0;
+				i=input.id.match(/\d+/g);
+                reader.onload = function (e) {
+                    $('#img'+i)
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 			
 		</script>
 {% endblock %}

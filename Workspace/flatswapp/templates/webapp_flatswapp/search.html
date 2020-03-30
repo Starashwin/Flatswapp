@@ -68,8 +68,7 @@
     <thead>
       <tr>
 	    <th>Picture</th>
-        <th>id</th>
-        <th>First name</th>
+        <th>User</th>
         <th>Views</th>
         <th>Date joined</th>
 
@@ -81,9 +80,11 @@
 		  <td style="width: 420px; height: 320px;">
 			<img  src="{{ MEDIA_URL }}{{ property.cover }}" alt="" height="300" width="400" /></td>
           <td><a class="list-group-item" href="/flatswapp/property/{{ property.slug }}"><strong>Property link</strong></a></td>
-          <td>{{ property.name }}</td>
           <td>{{ property.views }}</td>
-          <td>{{ property.user}}</td>
+          <td>{{ property.user}}</br>
+		  {{ property.user.email}}</br>
+		  {{ property.user.mobile }}
+		  </td>
 		  
           <!--<td>
             {% for group in user.groups.all %}

@@ -6,21 +6,22 @@ import requests
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'list-group-item','placeholder':'Password'}), label='')
     username = forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','placeholder':'Username'}), label='')
-    email = forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','placeholder':'Email'}), label='')
+    
     class Meta:
     
         model = User
-        fields = ('username', 'email', 'password',)
+        fields = ('username', 'password',)
         
 
 class UserProfileForm(forms.ModelForm):
+    email = forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','placeholder':'Email'}), label='')
     mobile = forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','type':'tel','placeholder':'Phone number (eg. +44123456789)'}), label='')
     postcode= forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item', 'id':'customInput','placeholder':'Post Code','onchange':"javascript:document.getElementById('dummyButton').click();"}), label='')
     address= forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','id':'output_field','placeholder':'Address'}), label='')
 
     class Meta:     
         model = UserProfile
-        fields = ('mobile', 'picture','postcode','address',)
+        fields = ('email','mobile', 'picture','postcode','address',)
 
 class FacilityForm(forms.ModelForm):
     OPTIONS = (
@@ -69,7 +70,7 @@ class PropertyForm(forms.ModelForm):
     n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
     furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
     rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
-    cover = forms.ImageField()
+    cover = forms.ImageField(label='Cover Picture')
     outdata = forms.DateField(widget=forms.DateInput(attrs={'class' : 'list-group-item input-sm','id':'datepicker','style':'height:50px;','placeholder':'Moving Out Date'}), label='')
     description = forms.CharField(widget=forms.Textarea(attrs={'class' : 'list-group-item','style' : 'height:100px','placeholder':'Description'}), label='')
     
@@ -93,10 +94,10 @@ class PropertyForm(forms.ModelForm):
     # Provide an association between the ModelForm and a model
         model = Property
 
-        fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','outward','nearest','neighbour','cover','description']
+        fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','description','cover']
         
 class PropertyImageForm(forms.ModelForm):
-    image = forms.ImageField(label='Image')
+    image = forms.ImageField(widget=forms.FileInput(attrs={'onchange':"javascript:updateImage();readURL(this);"}), label='')
     class Meta:
         model = Images
         fields = ('image', )

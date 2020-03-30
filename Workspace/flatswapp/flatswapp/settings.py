@@ -123,6 +123,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+AUTH_PROFILE_MODULE = 'flatswapp.UserProfile'
+
 # Google Auth key and secret
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '215762109314-3o0ged4689l36jdodef4qmdfbh29v6p4.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Yk_Xsq1gU56NL1BCsnjSLMW9'

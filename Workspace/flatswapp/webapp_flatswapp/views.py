@@ -26,7 +26,7 @@ def index(request):
 
 def myaccount(request):
     context_dict = {}
-    context_dict['shortlist'] = Shortlist.objects.filter(user=request.user)
+    context_dict['shortlist'] = Shortlist.objects.filter(user=request.user.profile)
     return render(request, 'webapp_flatswapp/myaccount.html',context=context_dict)
     
 def about(request):
@@ -46,6 +46,7 @@ def show_property(request, id_slug):
         #pages = Page.objects.filter(property=property)
         #context_dict['pages'] = pages
         context_dict['property'] = property
+        context_dict['images'] = Images.objects.filter(property=property)
     except property.DoesNotExist:
         context_dict['property'] = None
         #context_dict['pages'] = None
@@ -82,7 +83,7 @@ def display_property_view(request):
 def add_shortlist(request,id_slug):
     if request.method == 'GET':
         shortlisted = False
-        us=User.objects.get(username=request.user.username)
+        us=UserProfile.objects.get(user=request.user)
         pr=Property.objects.get(slug=id_slug)
         context_dict = {}
         context_dict['property'] = pr
@@ -106,7 +107,7 @@ def add_property(request):
         # # Have we been provided with a valid form? check for both forms 
         if propertyForm.is_valid() and formset.is_valid():
             property_form=propertyForm.save(commit=False)
-            property_form.user=User.objects.get(username=request.user.username)
+            property_form.user=UserProfile.objects.get(user=request.user)
             property_form.save()
             
             for form in formset.cleaned_data:

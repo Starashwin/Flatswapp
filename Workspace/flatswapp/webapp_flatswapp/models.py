@@ -9,6 +9,7 @@ from django.template.defaultfilters import slugify
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    email=models.EmailField(null=False,default='')
     mobile = PhoneNumberField()
     picture = models.ImageField(upload_to='profile_images', blank=True)
     #postcode= models.TextField(null=True) 
@@ -44,7 +45,7 @@ class Property(models.Model):
     outward=models.TextField(default='')
     nearest=models.TextField(default='')
     neighbour=models.TextField(default='')
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,null=True)
     facility = models.ManyToManyField(Facility) 
     
     def save(self, *args, **kwargs):
@@ -94,7 +95,7 @@ class Images(models.Model):
     # username = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Shortlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shortlisting')
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='shortlisting')
     property_id = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='shortlisted')
     
     # class Meta:
