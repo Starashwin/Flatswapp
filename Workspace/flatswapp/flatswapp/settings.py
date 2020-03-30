@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +29,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xexx4teik^4jr2rje%9fgu-uyv0af*ftrt-b#_4spnwy5s+*0s'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -126,20 +128,20 @@ AUTHENTICATION_BACKENDS = (
 AUTH_PROFILE_MODULE = 'flatswapp.UserProfile'
 
 # Google Auth key and secret
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '215762109314-3o0ged4689l36jdodef4qmdfbh29v6p4.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Yk_Xsq1gU56NL1BCsnjSLMW9'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("GOOGLE_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("GOOGLE_SECRET")
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 #Twitter Auth key and consumer secret
-SOCIAL_AUTH_TWITTER_KEY = 'JtIg4y8jOrgwlXvsz1PHmjktP'
-SOCIAL_AUTH_TWITTER_SECRET = 'BSIXs1mtYkGg3wGy7m4N4x2q2sHbpxy2Vq1bYAK6cT517bUCs3'
+SOCIAL_AUTH_TWITTER_KEY = os.getenv("TWITTER_KEY")
+SOCIAL_AUTH_TWITTER_SECRET = os.getenv("TWITTER_SECRET")
 
 #Facebook App id and secret
-SOCIAL_AUTH_FACEBOOK_KEY = '864975957289429'
-SOCIAL_AUTH_FACEBOOK_SECRET = '007b57f8119639f6e5b9529a2b99b294'
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("FACEBOOK_KEY")#'864975957289429'
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("FACEBOOK_SECRET")#'007b57f8119639f6e5b9529a2b99b294'
 
 #Google Maps API key 
-GOOGLE_MAPS_API_KEY = 'AIzaSyBpWUo9TsGZBrNIjocnYuned1gek4uQCv8'
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS")
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
