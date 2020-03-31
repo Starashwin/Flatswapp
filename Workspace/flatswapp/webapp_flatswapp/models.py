@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField #https://github.com/stefanfoulis/django-phonenumber-field
 from django.template.defaultfilters import slugify
 
-# Create your models here.
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile',null=True)
     email=models.EmailField(null=False,default='')
@@ -56,42 +54,10 @@ class Property(models.Model):
     def __str__(self):
         return str(self.property_id)
 
-
-        
-    
-#def get_image_filename(instance, filename):
-#    title = instance.property.title
-#    slug = slugify(title)
-#    return "post_images/%s-%s" % (slug, filename)
-        
 class Images(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, default=None)
     image = models.ImageField(upload_to='property_images/', verbose_name='Image')
 
-
-# class Locations(models.Model):
-    # address = map_fields.AddressField(max_length=200)
-    # geolocation = map_fields.GeoLocationField(max_length=100)
-
-    
-#class Category(models.Model):
-#    property_id = models.AutoField(primary_key=True)
-#    views = models.IntegerField(default=0)
-#    likes = models.IntegerField(default=0)
-#    slug = models.SlugField(unique=True)
-#    name=models.TextField()
-#    address=models.TextField(default='')
-#    n_bedrooms=models.IntegerField(default=0)
-#    furnished=models.TextField(default='')
-#    rent=models.IntegerField(default=0)
-#    picture=models.ImageField(upload_to='home_images/', blank=True)
-
-    
-
-        
-# class User_Property(models.Model):
-    # property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    # username = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Shortlist(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='shortlisting')
@@ -104,8 +70,5 @@ class Shortlist(models.Model):
         return self.user
     
     def save(self, *args, **kwargs):
-    #check if value exists / increment something etc
-
-    #continue with save, if necessary:
         super(Shortlist, self).save(*args, **kwargs)
     

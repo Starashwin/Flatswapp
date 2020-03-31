@@ -16,7 +16,6 @@ from webapp_flatswapp.forms import *
 from .filters import PropertyFilter
 import requests
 
-# Create your views here.
 def index(request):
     prop_slider=Property.objects.order_by('-views')[:3]
     context_dict = {}
