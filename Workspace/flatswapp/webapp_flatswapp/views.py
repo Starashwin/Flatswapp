@@ -17,7 +17,6 @@ from .filters import PropertyFilter
 import requests
 
 # Create your views here.
-
 def index(request):
     prop_slider=Property.objects.order_by('-views')[:3]
     context_dict = {}
@@ -27,7 +26,7 @@ def index(request):
 @login_required
 def myaccount(request):
     context_dict = {}
-    context_dict['shortlist'] = Shortlist.objects.filter(user=request.user.profile)
+    context_dict['shortlist'] = Shortlist.objects.filter(Q(user=request.user.profile))
     return render(request, 'webapp_flatswapp/myaccount.html',context=context_dict)
 
     
@@ -164,6 +163,7 @@ def register(request):
             user = user_form.save()
             user.set_password(user.password)
             user.save()
+            #profile = UserProfile()
             profile = profile_form.save(commit=False)
             profile.user = user
             
@@ -180,6 +180,7 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
     return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form,  'profile_form': profile_form, 'registered': registered})
+
 
 def user_login(request):
     if request.method == 'POST':
