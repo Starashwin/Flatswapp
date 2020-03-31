@@ -17,7 +17,7 @@
   <form method="POST" style="margin-top:70px">
   {% csrf_token %}
     <div class="well">
-      <h4 style="margin-top: 0">Filter</h4>
+      <h4 style="margin-top: 0">Search and Find Your New Place</h4>
       <div class="row">
         <div class="form-group col-sm-4 col-md-3">
           {% render_field filter.form.multi_name_fields class="form-control" placeholder="Keyword"%}
@@ -25,9 +25,7 @@
         <div class="form-group col-sm-4 col-md-3">
           {% render_field filter.form.postcode class="form-control" placeholder="Postcode"%}
         </div>
-		<div class="form-group col-sm-4 col-md-3">
-          {% render_field filter.form.furnished class="form-control"%}
-        </div>
+
 
 	  </div>
 	  <div class="row">
@@ -39,7 +37,10 @@
 			<p><strong>Date Range</strong></p>
           {% render_field filter.form.date class="form-control" %}
         </div>
-
+		<div class="form-group col-sm-4 col-md-3">
+			<p><strong>Furnished</strong></p>
+          {% render_field filter.form.furnished class="form-control"%}
+        </div>
 
 	  </div>
 			<script>

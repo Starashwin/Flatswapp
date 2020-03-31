@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField #https://github.com/stefanfoulis/django-phonenumber-field
 from django_google_maps import fields as map_fields #for Google Maps
 from django.template.defaultfilters import slugify
+
 # import postcodes_io_api
 # Create your models here.
-from django.db.models.signals import post_save
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -15,24 +15,16 @@ class UserProfile(models.Model):
     #postcode= models.TextField(null=True) 
     address= models.TextField(default='') 
     #shortlisted = models.ManyToManyField(Property, related_name='shortlisted_by')
+
     def __str__(self):
         return self.user.username
-
-
-def create_user_profile(sender, instance, created, **kwargs):
-  if created:
-   UserProfile.objects.create(user=instance)
-post_save.connect(create_user_profile, sender=User, dispatch_uid='create_extension')
-
-'''class Facility(models.Model):
-    
-    title = models.CharField(max_length=128)
-    desciption=models.TextField()
+       
+class Facility(models.Model):    
+    feature = models.CharField(max_length=400)
     slug = models.SlugField()
     
     def __str__(self):
-        return self.title'''
-
+        return self.feature        
 class Property(models.Model):
 
     property_id = models.AutoField(primary_key=True)
@@ -52,8 +44,7 @@ class Property(models.Model):
     nearest=models.TextField(default='')
     neighbour=models.TextField(default='')
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,null=True)
-    #facility = models.ManyToManyField(Facility) #Check this there was a conflict on this line 
-
+    facility = models.ForeignKey(Facility, on_delete=models.CASCADE,null=True)
     
     def save(self, *args, **kwargs):
         super(Property, self).save(*args, **kwargs)
@@ -67,13 +58,7 @@ class Property(models.Model):
     def __str__(self):
         return str(self.property_id)
 
-class Facility(models.Model):
-    property = models.ManyToManyField(Property)
-    feature = models.CharField(max_length=128)
-    slug = models.SlugField()
-    
-    def __str__(self):
-        return self.feature
+
         
     
 #def get_image_filename(instance, filename):
@@ -112,10 +97,10 @@ class Images(models.Model):
 
 class Shortlist(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='shortlisting')
-    property_id = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='shortlisted')
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='shortlisted')
     
-    # class Meta:
-        # unique_together = ('user', 'property_id',)
+    class Meta:
+        unique_together = ('user', 'property',)
     
     def __str__(self):
         return self.user
@@ -125,3 +110,4 @@ class Shortlist(models.Model):
 
     #continue with save, if necessary:
         super(Shortlist, self).save(*args, **kwargs)
+    

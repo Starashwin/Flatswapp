@@ -23,10 +23,12 @@ def index(request):
     context_dict['properties'] = prop_slider
     return render(request, 'webapp_flatswapp/index.html',context=context_dict)
 
+@login_required
 def myaccount(request):
     context_dict = {}
     context_dict['shortlist'] = Shortlist.objects.filter(Q(user=request.user.profile))
     return render(request, 'webapp_flatswapp/myaccount.html',context=context_dict)
+
     
 def about(request):
     response = render(request, 'webapp_flatswapp/about.html')
@@ -45,21 +47,11 @@ def show_property(request, id_slug):
 
         context_dict['property'] = property
         context_dict['images'] = Images.objects.filter(property=property)
-        fac = Facility.objects.filter(property=property)
-        context_dict['facilities'] = fac
+        context_dict['shortlisted'] = Shortlist.objects.filter(user=request.user.profile,property=property)
     except property.DoesNotExist:
         context_dict['property'] = None
 
     return render(request, 'webapp_flatswapp/property.html', context=context_dict)
-
-def success(request):
-    return HttpResponse('Property added successfully')
-
-@login_required
-def display_property_view(request):
-    if request.method == 'GET':
-        prop = Property.objects.all()
-        return render(request, 'webapp_flatswapp/show_property.html', {'home_images' : prop})
 
 @login_required
 def add_shortlist(request,id_slug):
@@ -69,10 +61,23 @@ def add_shortlist(request,id_slug):
         pr=Property.objects.get(slug=id_slug)
         context_dict = {}
         context_dict['property'] = pr
-        sl = Shortlist.objects.create(user=us,property_id=pr)
+        sl = Shortlist.objects.create(user=us,property=pr)
         sl.save()
         # shortlisting=User.objects.get(username=request.user.username),shortlisted=Property.objects.get(slug=id_slug))
         shortlisted = True
+        return render(request,'webapp_flatswapp/property.html',context={'property': pr,  'shortlisted': shortlisted})
+        
+@login_required
+def remove_shortlist(request,id_slug):
+    if request.method == 'GET':
+        shortlisted = True
+        us=UserProfile.objects.get(user=request.user)
+        pr=Property.objects.get(slug=id_slug)
+        context_dict = {}
+        context_dict['property'] = pr
+        sl = Shortlist.objects.get(user=us,property=pr).delete()
+        # shortlisting=User.objects.get(username=request.user.username),shortlisted=Property.objects.get(slug=id_slug))
+        shortlisted = False
         return render(request,'webapp_flatswapp/property.html',context={'property': pr,  'shortlisted': shortlisted})
         
 @login_required
@@ -136,9 +141,10 @@ def add_facility(request, id_slug):
             if property:
                 facility = form.save(commit=False)
                 facility.save()
-                facility.property.add(property)                
-                
-                
+                property.facility=facility
+                property.save()
+                     
+                           
                 return redirect(reverse('webapp_flatswapp:show_property',kwargs={'id_slug':id_slug}))
         else:
             print(form.errors)
@@ -210,10 +216,13 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('webapp_flatswapp:myaccount'))
             else:
-                return HttpResponse("Your Flatswapp account is disabled.")
+                messages.error(request, 'This account is locked. Please create another account')
+                return render(request, 'webapp_flatswapp/login.html')
         else:
-            print("Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            messages.error(request, 'Invalid user or password. Please try again.')
+            return render(request, 'webapp_flatswapp/login.html')
+            # print("Invalid login details: {username}, {password}")
+            # return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'webapp_flatswapp/login.html')
 

@@ -32,6 +32,14 @@
 		<!--<label for="inputPassword">Password</label>-->
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
       </div>
+	  
+	  {% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
 	
       <div class="checkbox mb-3">
         <label>

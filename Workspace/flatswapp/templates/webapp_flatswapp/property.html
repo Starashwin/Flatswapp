@@ -13,16 +13,21 @@
 {% block body_block %}
 	{% if property %}
 	<h1 style="margin-top:70px">{{ property.name }}</h1>
-
-
+		<h3>Cover & Extra Images</br></h3>
+		<img src="{{ MEDIA_URL }}{{property.cover}}" style="height: 300px; width: 400px; display: block;">
 	{% else %}
 	The specified category does not exist.
 	{% endif %}
+	
+	
+	
 	<div class="row" bis_skin_checked="1">
+	
+
 		{% for img in images %}
 		<div class="col-md-4" bis_skin_checked="1">
               <div class="card mb-4 box-shadow" bis_skin_checked="1">
-                <img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="{{ MEDIA_URL }}{{ img.image }}" data-holder-rendered="true">
+                <img class="card-img-top" alt="Album" style="height: 225px; width: 100%; display: block;" src="{{ MEDIA_URL }}{{ img.image }}" data-holder-rendered="true">
                 <div class="card-body" bis_skin_checked="1">
                 </div>
               </div>
@@ -33,22 +38,61 @@
 	<div class="row" bis_skin_checked="1">
 	
 		
-		<div class="col-md-4" bis_skin_checked="1">
-		<h3>Facilities</h3>
-		{% for fac in facilities %}
-				<li>{{ fac.feature }}</li>
-		{% endfor %}
+		<div class="col-md-3" bis_skin_checked="1">
+		<h3>Facilities provided</h3>
+				<div id="facilities">
+				<script>
+				<!-- Split property.facility -->
+				var txt = document.createElement("textarea");
+				txt.innerHTML = "{{ property.facility }}";
+				var array = txt.innerHTML.replace(new RegExp("'", 'g'), "").replace("[","").replace("]","").split(",");
+				
+				text = "<ul class='list-group list-group-flush' >";
+				for (i = 0; i < array.length; i++) {
+				  text += "<li class='list-group-item list-group-item-primary' style='position:static;width:200px;'>" + array[i] + "</li>";
+				}
+				text += "</ul>";
+				
+				document.getElementById("facilities").innerHTML=text;
+				</script>
+				</div>
 		</div>
 
 	</div>
 	{% if user.is_authenticated %}
-	<button onclick="javascript:loadDoc()">Add to Shortlist</button>
+	{% if shortlisted %}
+	<button class="btn btn-lg btn-primary" style="margin-top:20px" id="remove" onclick="javascript:removeFromShortlist()">Remove from Shortlist</button>
+	{% else %}
+	<button class="btn btn-lg btn-primary" style="margin-top:20px" id="add" onclick="javascript:addToShortlist()">Add to Shortlist</button>
+	{% endif %}	
 	{% endif %}	
 	<script>
-		function loadDoc() {
+		function addToShortlist() {
 		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+		  if (this.status == 200) {
+				document.getElementById('add').innerHTML="Remove from Shortlist";
+				document.getElementById('add').setAttribute('onclick','removeFromShortlist();');
+				document.getElementById('add').setAttribute('id','remove')
+			}
+		};
 		  xhttp.open("GET", "http://localhost:8000/flatswapp/property/{{ property.slug }}/add_shortlist", true);
-		  alert("Working4");
+
+		  
+		  xhttp.send();
+		}
+		
+		function removeFromShortlist() {
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+		  if (this.status == 200) {
+				document.getElementById('remove').innerHTML="Add to Shortlist";
+				document.getElementById('remove').setAttribute('onclick','addToShortlist();');
+				document.getElementById('remove').setAttribute('id','add')
+			}
+		};
+		  xhttp.open("GET", "http://localhost:8000/flatswapp/property/{{ property.slug }}/remove_shortlist", true);
+		  
 		  xhttp.send();
 		}
 	</script>
