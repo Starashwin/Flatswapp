@@ -24,7 +24,7 @@ Flatswapp
     <div class="col-lg-8">
       <h1 class="display-3">Flatswapp</h1>
       <p>Don't worry! You will find your place. Just swap your flat!</p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      <p><a class="btn btn-primary btn-lg" href="{% url 'webapp_flatswapp:about' %}" role="button">Learn more &raquo;</a></p>
     </div>
 	{% if not user.is_authenticated %}
 	<div class="col-xs-4 mx-auto">

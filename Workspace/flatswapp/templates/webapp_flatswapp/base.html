@@ -63,10 +63,11 @@
 	<body onload="javascript:hide();">
 	
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		{% if user.is_authenticated %}
 		<a href="{% url 'webapp_flatswapp:myaccount' %}">
 			<img src="{{ MEDIA_URL }}{{ user.profile.picture }}" class="rounded-circle" alt="" height="50" width="50" />
 		</a>
-		{% if user.is_authenticated %}
+		
 			<a class="navbar-brand" href="{% url 'webapp_flatswapp:myaccount' %}">Hello {{ user.username }}!</a>
 		{% else %}		
 			<a class="navbar-brand" href="{% url 'webapp_flatswapp:index' %}">Hello Guest!</a>

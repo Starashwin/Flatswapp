@@ -14,7 +14,6 @@ STATUS_ROOMS = (
 )
 
 STATUS_FURNISHED = (
-('N/A', 'N/A'),
 ('Yes', 'Yes'),
 ('Partially', 'Partially'),
 ('No', 'No'),

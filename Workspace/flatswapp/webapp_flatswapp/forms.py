@@ -49,7 +49,7 @@ class PropertyForm(forms.ModelForm):
     user = forms.CharField(widget=forms.HiddenInput(), required=False)
         
     FURNISHED_OPTIONS = (
-    ("N/A","N/A"),
+    ("Furnished","Furnished"),
     ("Yes", "Yes"),
     ("Partially", "Partially"),
     ("No", "No")
