@@ -35,7 +35,6 @@ class FacilityForm(forms.ModelForm):
         ("Garden","Garden"),
         )
     feature = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,choices=OPTIONS)
-    # desciption = forms.CharField(widget=forms.Textarea(attrs={'class' : 'list-group-item','style' : 'height:100px','placeholder':'Description'}), label='', required=False)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:     
@@ -75,8 +74,6 @@ class PropertyForm(forms.ModelForm):
     cover = forms.ImageField(label='Cover Picture')
     outdata = forms.DateField(widget=forms.DateInput(attrs={'class' : 'list-group-item input-sm','id':'datepicker','style':'height:50px;','placeholder':'Moving Out Date'}), label='')
     description = forms.CharField(widget=forms.Textarea(attrs={'class' : 'list-group-item','style' : 'height:100px','placeholder':'Description'}), label='')
-    
-    #id="datepicker" class="form-control" data-type="datepicker" data-guid="02d4517a-7236-bb43-2b2c-1dea160fd41c" data-datepicker="true"
     
     outward=forms.CharField(widget=forms.HiddenInput(), initial='', required=False)
     nearest=forms.CharField(widget=forms.HiddenInput(), initial='', required=False)

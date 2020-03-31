@@ -34,9 +34,6 @@ def about(request):
     response = render(request, 'webapp_flatswapp/about.html')
     return response
 
-# def shortlist(request)
-    # return render(request, 'webapp_flatswapp/shortlist.html')
-
 def show_property(request, id_slug):
 
     context_dict = {}
@@ -64,7 +61,6 @@ def add_shortlist(request,id_slug):
         context_dict['property'] = pr
         sl = Shortlist.objects.create(user=us,property=pr)
         sl.save()
-        # shortlisting=User.objects.get(username=request.user.username),shortlisted=Property.objects.get(slug=id_slug))
         shortlisted = True
         return render(request,'webapp_flatswapp/property.html',context={'property': pr,  'shortlisted': shortlisted})
         
@@ -77,7 +73,6 @@ def remove_shortlist(request,id_slug):
         context_dict = {}
         context_dict['property'] = pr
         sl = Shortlist.objects.get(user=us,property=pr).delete()
-        # shortlisting=User.objects.get(username=request.user.username),shortlisted=Property.objects.get(slug=id_slug))
         shortlisted = False
         return render(request,'webapp_flatswapp/property.html',context={'property': pr,  'shortlisted': shortlisted})
         
@@ -153,11 +148,10 @@ def add_facility(request, id_slug):
     return render(request, 'webapp_flatswapp/add_facility.html', context=context_dict)
     
 def register(request):
-    ##registered = False
+    registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
-        #address_form = AddressForm(request.POST)
         
         if user_form.is_valid()and profile_form.is_valid(): 
             user = user_form.save()
@@ -166,9 +160,6 @@ def register(request):
             profile = UserProfile()
             profile = profile_form.save(commit=False)
             profile.user = user
-            
-            address = address_form.save(commit=False)
-            profile.address = adress
 
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
@@ -179,7 +170,7 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-    return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form, 'profile_form': profile_form,'registered':registered})
 
 def after_register(request):
     if not(UserProfile.objects.filter(user=request.user).exists()):
@@ -220,8 +211,6 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid user or password. Please try again.')
             return render(request, 'webapp_flatswapp/login.html')
-            # print("Invalid login details: {username}, {password}")
-            # return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'webapp_flatswapp/login.html')
 
@@ -229,17 +218,6 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect(reverse('webapp_flatswapp:index'))
-
-# def search(request):
-    # if request.method== 'POST':
-        # search_string = request.POST['search_string']
-        # if search_string:
-            # match = Property.objects.filter(Q(name__icontains=search_string))
-            # if match:
-                # return render(request, 'webapp_flatswapp/search.html', {'sr':match})
-        # else:
-            # return redirect(reverse('webapp_flatswapp:search'))
-    # return render(request, 'webapp_flatswapp/search.html')
 
 def search(request):
     property_initial = PropertyFilter(request.GET, queryset=Property.objects.none())

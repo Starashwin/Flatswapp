@@ -11,8 +11,18 @@
 {% endblock %}
 
 {% block body_block %}
+	<div class="row">
 	{% if property %}
-	<h1 style="margin-top:70px">{{ property.name }}</h1>
+	<h1 class="col-sm-4" style="margin-top:70px">{{ property.name }}</h1>
+	
+		{% if user.is_authenticated %}
+		{% if shortlisted %}
+		<button class="btn btn-lg btn-primary" style="margin-top:70px" id="remove" onclick="javascript:removeFromShortlist()">Remove from Shortlist</button>
+		{% else %}
+		<button class="btn btn-lg btn-primary" style="margin-top:70px" id="add" onclick="javascript:addToShortlist()">Add to Shortlist</button>
+		{% endif %}	
+		{% endif %}	
+	</div>
 	<div class="row" bis_skin_checked="1">
 	
 		<div class="col-md-4" bis_skin_checked="1">
@@ -82,19 +92,7 @@
 		{% endfor %}
 	</div>
 	
-	<div class="row" bis_skin_checked="1">
 	
-		
-		
-
-	</div>
-	{% if user.is_authenticated %}
-	{% if shortlisted %}
-	<button class="btn btn-lg btn-primary" style="margin-top:20px" id="remove" onclick="javascript:removeFromShortlist()">Remove from Shortlist</button>
-	{% else %}
-	<button class="btn btn-lg btn-primary" style="margin-top:20px" id="add" onclick="javascript:addToShortlist()">Add to Shortlist</button>
-	{% endif %}	
-	{% endif %}	
 	<script>
 		function addToShortlist() {
 		  var xhttp = new XMLHttpRequest();

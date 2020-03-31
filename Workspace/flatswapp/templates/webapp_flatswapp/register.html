@@ -8,15 +8,15 @@
 {% block body_block %}
 
 	
-	<!--<script src="https://cdn.ideal-postcodes.co.uk/assets/application-62cbe07e8297b2f73364c29ce8fb3cd697e988e993579c444ee3eee439cf0f87.js"></script>
+	<script src="https://cdn.ideal-postcodes.co.uk/assets/application-62cbe07e8297b2f73364c29ce8fb3cd697e988e993579c444ee3eee439cf0f87.js"></script>
 	<script src="https://raw.githubusercontent.com/ideal-postcodes/jquery.postcodes/master/dist/postcodes.min.js"></script>
-	-->
+	
 	<div class="col-sm-4 mx-auto" >
 	<h1 style="margin-top:80px">Register for Flatswapp</h1>
-	<!--{% if registered %}
+	{% if registered %}
 		<strong>Thank you for registering!</strong>
 		<a href="{% url 'webapp_flatswapp:index' %}">Return to the homepage.</a><br />
-	{% else %} -->
+	{% else %} 
 		
 		
 		<form style="margin-top:20px" id="user_form" method="post" action="{% url 'webapp_flatswapp:register' %}"
@@ -28,45 +28,16 @@
 		{{ user_form.as_p }}
 		{{ profile_form.as_p }}
 
-
-		
-
 		<a id="dummyButton"></a>
-		<!--<p>
-		<input class="list-group-item" name="postcode" id="customInput" type="text" placeholder="Post Code" required onchange="javascript:document.getElementById('dummyButton').click()"></input>
-		</p>
-		
-		
-		<p id="output_field" name="address">
-		<input class="list-group-item" name="address" type="text" placeholder="Address" required></input>
-		</p>-->
-<!--
-<p>
-<input class="list-group-item" id="first_line" type="text">
-</p>
-<p>
-<input class="list-group-item" id="second_line" type="text">
-</p>
-<p>
-<input class="list-group-item" id="third_line" type="text">
-</p>
-<p>
-<input class="list-group-item" id="post_town" type="text">
-</p>
-<p>
-<input class="list-group-item" id="postcode" type="text">
-</p>
- -->		 
 
 		</div>
-		<button class="btn btn-lg btn-primary" style="margin-top:20px" onclick="http://localhost:8000/flatswapp/register1/">Continue</button>
+		<button class="btn btn-lg btn-primary" style="margin-top:20px" >Create Your Profile</button>
 		</form>
 	</div>
-<!--
+
 	<script>
 	$('#lookup_field').setupPostcodeLookup({
 		api_key: 'iddqd',
-		
 		output_fields: {},
 		onAddressSelected: address => {
 		const result = [
@@ -84,6 +55,6 @@
 	});
 	</script>
 	{% endif %}
-	-->
+
 	
 {% endblock %}
