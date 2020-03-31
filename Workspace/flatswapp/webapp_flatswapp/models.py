@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField #https://github.com/stefanfoulis/django-phonenumber-field
 from django_google_maps import fields as map_fields #for Google Maps
 from django.template.defaultfilters import slugify
-
 # import postcodes_io_api
 # Create your models here.
+from django.db.models.signals import post_save
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -15,10 +15,15 @@ class UserProfile(models.Model):
     #postcode= models.TextField(null=True) 
     address= models.TextField(default='') 
     #shortlisted = models.ManyToManyField(Property, related_name='shortlisted_by')
-
     def __str__(self):
         return self.user.username
-        
+
+
+def create_user_profile(sender, instance, created, **kwargs):
+  if created:
+   UserProfile.objects.create(user=instance)
+post_save.connect(create_user_profile, sender=User, dispatch_uid='create_extension')
+
 class Facility(models.Model):
     
     title = models.CharField(max_length=128)
@@ -46,7 +51,7 @@ class Property(models.Model):
     nearest=models.TextField(default='')
     neighbour=models.TextField(default='')
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,null=True)
-    facility = models.ManyToManyField(Facility) 
+    facility = models.ManyToManyField(Facility)
     
     def save(self, *args, **kwargs):
         super(Property, self).save(*args, **kwargs)
@@ -109,4 +114,3 @@ class Shortlist(models.Model):
 
     #continue with save, if necessary:
         super(Shortlist, self).save(*args, **kwargs)
-    
