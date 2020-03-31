@@ -21,11 +21,14 @@ Flatswapp
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron" style="margin-bottom:0">
 	<div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-5">
       <h1 class="display-3">Flatswapp</h1>
       <p>Don't worry! You will find your place. Just swap your flat!</p>
       <p><a class="btn btn-primary btn-lg" href="{% url 'webapp_flatswapp:about' %}" role="button">Learn more &raquo;</a></p>
     </div>
+  <div class="col-lg-3">
+		<img src="{{ MEDIA_URL }}logo.jpg" alt="Logo" width="150" height="150">
+      </div>
 	{% if not user.is_authenticated %}
 	<div class="col-xs-4 mx-auto">
 	<form class="login_form" method="post" action="{% url 'webapp_flatswapp:login' %}">
@@ -34,6 +37,7 @@ Flatswapp
         <h2 class="h4 font-weight-normal">Login to Flatswapp</h2>
         <p> Find your tenant or landholder right now!</p>
       </div>
+
 
       <div class="form-group">
 		<!--<label for="inputUser">Username</label> -->
