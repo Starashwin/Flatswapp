@@ -147,33 +147,57 @@ def add_facility(request, id_slug):
     return render(request, 'webapp_flatswapp/add_facility.html', context=context_dict)
     
 def register(request):
-    registered = False
+    ##registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
+        ##profile_form = UserProfileForm(request.POST)
         #address_form = AddressForm(request.POST)
         
-        if user_form.is_valid() and profile_form.is_valid(): #and Api.is_postcode_valid(self, address_form.postcode):
+        if user_form.is_valid(): ##and profile_form.is_valid(): #and Api.is_postcode_valid(self, address_form.postcode):
             user = user_form.save()
             user.set_password(user.password)
             user.save()
             #profile = UserProfile()
-            profile = profile_form.save(commit=False)
-            profile.user = user
+            ##profile = profile_form.save(commit=False)
+            ##profile.user = user
             
             #address = address_form.save(commit=False)
             #profile.address = adress
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            profile.save()
-            registered = True
+            ##if 'picture' in request.FILES:
+              ##  profile.picture = request.FILES['picture']
+            ##profile.save()
+            ##registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            ##print(user_form.errors, profile_form.errors)
+            print(user_form.errors)
     else:
         user_form = UserForm()
+        ##profile_form = UserProfileForm()
+    return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form})##  'profile_form': profile_form, 'registered': registered})
+
+def after_register(request):
+    registered = False
+    if request.method == 'POST':
+        user = request.session['user']
+        profile_form = UserProfileForm(request.POST)
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+                profile.save()
+                registered = True
+        else:
+            print(profile_form.errors)
+
+    else:
         profile_form = UserProfileForm()
-    return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form,  'profile_form': profile_form, 'registered': registered})
+
+    return render(request, 'webapp_flatswapp/after_register.html', context = {'profile_form': profile_form, 'registered': registered})
+
+
 
 
 def user_login(request):
