@@ -16,28 +16,29 @@ Flatswapp
 		{% endif %}
 		<br/>
 	</div>-->
-	{% if user.is_authenticated %}
+{% if user.is_authenticated %}
 	
 
 	
   <div class="row">
 	  <div class="col-md-3.5" style="margin-top:70px" >
-
-		  <h1 class="display-5">My Details</h1>
+		
+		  
 		  <ul class="list-group ">
-			  <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
-			  <li class="list-group-item"><strong>Email:</strong> {{ user.profile.email }}</li>
-			  <li class="list-group-item"><strong>Mobile:</strong> {{ user.profile.mobile }}</li>
-			  <li class="list-group-item"><strong>Address:</strong> {{ user.profile.address }}</li>
-			  <a class="list-group-item" href="{% url 'webapp_flatswapp:change_password' %}"><strong>Change password</strong></a>
-			  <a class="list-group-item" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Add a flat</strong></a>
-			  <a class="list-group-item" href="{% url 'webapp_flatswapp:search' %}"><strong>Search a flat</strong></a>
+			  <h1 class="display-5 list-group-item">My Details</h1>
+			  <li class="list-group-item list-group-item-primary"><strong>Username:</strong> {{ user.username }}</li>
+			  <li class="list-group-item list-group-item-secondary"><strong>Email:</strong> {{ user.profile.email }}</li>
+			  <li class="list-group-item list-group-item-success"><strong>Mobile:</strong> {{ user.profile.mobile }}</li>
+			  <li class="list-group-item list-group-item-danger"><strong>Address:</strong> {{ user.profile.address }}</li>
+			  <a class="list-group-item list-group-item-warning" href="{% url 'webapp_flatswapp:change_password' %}"><strong>Change password</strong></a>
+			  <a class="list-group-item list-group-item-info" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Add a flat</strong></a>
+			  <a class="list-group-item list-group-item-light" href="{% url 'webapp_flatswapp:search' %}"><strong>Search a flat</strong></a>
 			  
-			  <a class="list-group-item nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Shortlist</strong></a>
+			  <a class="list-group-item nav-link list-group-item-dark dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Shortlist</strong></a>
 				<div class="dropdown-menu" aria-labelledby="dropdown01">
 					{% for sh in shortlist %}
-					  <a class="dropdown-item" href="/flatswapp/property/{{ sh.property_id.slug }}" >
-					  <strong>Property:</strong> {{ sh.property_id.name }}
+					  <a class="dropdown-item" href="/flatswapp/property/{{ sh.property.slug }}" >
+					  <strong>Property:</strong> {{ sh.property.name }}
 					  </a>
 					{% endfor %}
 				</div>
@@ -55,7 +56,7 @@ Flatswapp
 				</div>
 				{% for sh in shortlist %}
 				<div class="carousel-item">
-				  <img class="d-block w-100" src="{{ MEDIA_URL }}{{ sh.property_id.cover }}" alt="Second slide">
+				  <img class="d-block w-100" src="{{ MEDIA_URL }}{{ sh.property.cover }}" alt="Second slide">
 				</div>
 				{% endfor %}
 			  </div>

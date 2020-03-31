@@ -14,16 +14,13 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
-    #path('search/', views.search, name = 'search'),
     path('myaccount/', views.myaccount, name = 'myaccount'),
     path('property/<slug:id_slug>/add_shortlist/', views.add_shortlist, name = 'add_shortlist'),
+    path('property/<slug:id_slug>/remove_shortlist/', views.remove_shortlist, name = 'remove_shortlist'),
     path('change_password/',views.change_password, name='change_password'),
     path('search/', views.search, name='search'),
     
     path('property/<slug:id_slug>/add_facility/',views.add_facility, name='add_facility'),
     path('property/<slug:id_slug>/',views.show_property, name='show_property'),
-    #path('add_property/', views.add_property, name='add_property'),
     path('add_property/', views.add_property, name = 'add_property'),
-    path('success/', views.success, name = 'success'),
-    path('property_images/', views.display_property_view, name = 'property_images'),
 ]
