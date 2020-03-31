@@ -67,7 +67,7 @@ class PropertyForm(forms.ModelForm):
     )
     
     name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Ad Title'}), label='')
-    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','id':'customInput','placeholder':'Postcode','onchange':"javascript:getAPI();javascript:document.getElementById('dummyButton').click();"}), label='')
+    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','id':'customInput','placeholder':'Postcode','onchange':"javascript:getAPI();document.getElementById('dummyButton').click();"}), label='')
     address=forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','id':'output_field','placeholder':'Address'}), label='')
     n_bedrooms=forms.ChoiceField(widget=forms.Select(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}),choices=BEDROOMS_OPTIONS, label='')
     furnished=forms.ChoiceField(widget=forms.Select(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}),choices=FURNISHED_OPTIONS, label='')

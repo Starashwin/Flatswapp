@@ -88,7 +88,7 @@
   <table class="table table-bordered">
     <thead class="text-center">
       <tr>
-	    <th>Picture</th>
+	    <th>Cover Picture</th>
         <th>Details</th>
         <th>User Contact</th>
 
@@ -107,11 +107,16 @@
 		  <strong>Nearest Neighbourhoods:</strong>{{ property.neighbour }}</br>
 		  <a href="/flatswapp/property/{{ property.slug }}"><strong>See more details...</br></strong></a>
 		  </td>
+		  {% if user.is_authenticated %}
           <td style="width:400px">{{ property.user}}</br>
 		  {{ property.user.email}}</br>
 		  {{ property.user.mobile }}
 		  </td>
-		  
+		  {% else %}
+		  <td style="width:400px">***</br>
+		  <a href="/flatswapp/login"><strong>Please login to see details</br></strong></a>
+		  </td>
+		  {% endif %}
           <!--<td>
             {% for group in user.groups.all %}
               {{ group }}

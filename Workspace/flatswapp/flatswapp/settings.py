@@ -169,5 +169,5 @@ MEDIA_URL = '/media/'
 
 # login url and redirect for social auth
 LOGIN_URL = '/oauth/login/google-oauth2/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/flatswapp/register1/'
 LOGOUT_REDIRECT_URL = '/'

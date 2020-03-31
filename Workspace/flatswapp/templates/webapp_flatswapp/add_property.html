@@ -15,7 +15,7 @@ Add a Property
 
 	<body>-->
 		<div class="row">
-		<div class="col-sm-3 mx-auto"  style="margin-top:70px">
+		<div class="col-sm-2 mx-auto"  style="margin-top:70px">
 		</div>
 		<div class="col-md-4 mx-auto"  style="margin-top:70px">
 			<h1>Add a Property</h1>
@@ -104,10 +104,9 @@ Add a Property
 				(async () => {
 				   let response = await new Promise(resolve => {
 					  var xhr = new XMLHttpRequest();
-					  xhr.open("GET", "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value, true);
+					  xhr.open("GET", "http://api.postcodes.io/postcodes/"+document.getElementById('customInput').value, true);
 					  xhr.onload = function(e) {
 						var myObj = JSON.parse(this.responseText);
-						
 						document.getElementById('id_outward').value = myObj.result.outcode;
 						resolve(xhr.response);
 					  };
@@ -130,7 +129,6 @@ Add a Property
 				if (this.status == 200) {
 				var myObj = JSON.parse(this.responseText);
 				document.getElementById('id_outward').value = myObj.result.outcode;
-
 				}
 			  };
 			  xhttp.open("GET", "http://api.postcodes.io/postcodes/"+document.getElementById('id_postcode').value,true);

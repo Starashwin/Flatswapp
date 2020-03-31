@@ -13,30 +13,34 @@
 {% block body_block %}
 	{% if property %}
 	<h1 style="margin-top:70px">{{ property.name }}</h1>
-		<h3>Cover & Extra Images</br></h3>
-		<img src="{{ MEDIA_URL }}{{property.cover}}" style="height: 300px; width: 400px; display: block;">
-	{% else %}
-	The specified category does not exist.
-	{% endif %}
-	
-	
-	
 	<div class="row" bis_skin_checked="1">
 	
-
-		{% for img in images %}
 		<div class="col-md-4" bis_skin_checked="1">
-              <div class="card mb-4 box-shadow" bis_skin_checked="1">
-                <img class="card-img-top" alt="Album" style="height: 225px; width: 100%; display: block;" src="{{ MEDIA_URL }}{{ img.image }}" data-holder-rendered="true">
-                <div class="card-body" bis_skin_checked="1">
-                </div>
-              </div>
+		
+			<h3 class="text-center">Cover</br></h3>
+			<img src="{{ MEDIA_URL }}{{property.cover}}" style="height: 300px; width: 400px; display: block;">
+
 		</div>
-		{% endfor %}
-	</div>
-	
-	<div class="row" bis_skin_checked="1">
-	
+		<div class="col-md-5" bis_skin_checked="1">
+		<h3 class="text-center">Details</br></h3>
+		<ul class="list-group" >
+			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Address:</strong> 
+			  {% if user.is_authenticated %}
+			  {{ property.address }} 
+			  {% else %}
+			  <a href="/flatswapp/login"><strong>Please login to see details</br></strong></a>
+			  {% endif%}
+			  </li>
+			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Neighbour:</strong> {{ property.neighbour }}</li>
+			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Rent:</strong> {{ property.rent }}</li>
+			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Moving Out Date:</strong> {{ property.outdata }}</li>
+			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Furnished:</strong> {{ property.furnished }}</li>
+			  {% if user.is_authenticated %}
+			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Mobile:</strong> {{ property.user.mobile }}</li>
+			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Email:</strong> {{ property.user.email }}</li>
+			  {% endif%}
+			  </ul>
+		</div>
 		
 		<div class="col-md-3" bis_skin_checked="1">
 		<h3>Facilities provided</h3>
@@ -57,6 +61,31 @@
 				</script>
 				</div>
 		</div>
+	</div>
+	{% else %}
+		The specified property does not exist.
+	{% endif %}
+	
+	<h3 class="text-center" style="margin-top:20px">Extra Images</br></h3>
+	<div class="row" bis_skin_checked="1">
+	
+		
+		{% for img in images %}
+		<div class="col-md-4" bis_skin_checked="1">
+			
+              <div class="card mb-4 box-shadow" bis_skin_checked="1">
+                <img class="card-img-top" alt="Album" style="height: 225px; width: 100%; display: block;" src="{{ MEDIA_URL }}{{ img.image }}" data-holder-rendered="true">
+                <div class="card-body" bis_skin_checked="1">
+                </div>
+              </div>
+		</div>
+		{% endfor %}
+	</div>
+	
+	<div class="row" bis_skin_checked="1">
+	
+		
+		
 
 	</div>
 	{% if user.is_authenticated %}

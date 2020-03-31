@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block body_block %}
+
+	
 	<!--<script src="https://cdn.ideal-postcodes.co.uk/assets/application-62cbe07e8297b2f73364c29ce8fb3cd697e988e993579c444ee3eee439cf0f87.js"></script>
 	<script src="https://raw.githubusercontent.com/ideal-postcodes/jquery.postcodes/master/dist/postcodes.min.js"></script>
 	-->
@@ -24,7 +26,7 @@
 		{% csrf_token %}
 		<div id="lookup_field">
 		{{ user_form.as_p }}
-		<!--{{ profile_form.as_p }}-->
+		{{ profile_form.as_p }}
 
 
 		

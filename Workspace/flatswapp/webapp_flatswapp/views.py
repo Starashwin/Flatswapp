@@ -50,7 +50,8 @@ def show_property(request, id_slug):
         context_dict['shortlisted'] = Shortlist.objects.filter(user=request.user.profile,property=property)
     except property.DoesNotExist:
         context_dict['property'] = None
-
+    except AttributeError:
+        context_dict['shortlisted'] = None
     return render(request, 'webapp_flatswapp/property.html', context=context_dict)
 
 @login_required
@@ -103,7 +104,6 @@ def add_property(request):
                     image = form['image']
                     photo = Images(property=property_form, image=image)
                     photo.save()
-            messages.success(request, "Self written successful!")
             return HttpResponseRedirect("/flatswapp/property/"+property_form.slug+"/add_facility/")
             
             # Save the new category to the database.
@@ -156,53 +156,52 @@ def register(request):
     ##registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        ##profile_form = UserProfileForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
         #address_form = AddressForm(request.POST)
         
-        if user_form.is_valid(): ##and profile_form.is_valid(): #and Api.is_postcode_valid(self, address_form.postcode):
+        if user_form.is_valid()and profile_form.is_valid(): 
             user = user_form.save()
             user.set_password(user.password)
             user.save()
-            #profile = UserProfile()
-            ##profile = profile_form.save(commit=False)
-            ##profile.user = user
-            
-            #address = address_form.save(commit=False)
-            #profile.address = adress
-
-            ##if 'picture' in request.FILES:
-              ##  profile.picture = request.FILES['picture']
-            ##profile.save()
-            ##registered = True
-        else:
-            ##print(user_form.errors, profile_form.errors)
-            print(user_form.errors)
-    else:
-        user_form = UserForm()
-        ##profile_form = UserProfileForm()
-    return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form})##  'profile_form': profile_form, 'registered': registered})
-
-def after_register(request):
-    registered = False
-    if request.method == 'POST':
-        user = request.session['user']
-        profile_form = UserProfileForm(request.POST)
-        if profile_form.is_valid():
+            profile = UserProfile()
             profile = profile_form.save(commit=False)
             profile.user = user
+            
+            address = address_form.save(commit=False)
+            profile.address = adress
 
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
-                profile.save()
-                registered = True
+            profile.save()
+            registered = True
         else:
-            print(profile_form.errors)
-
+            print(user_form.errors, profile_form.errors)
     else:
+        user_form = UserForm()
         profile_form = UserProfileForm()
+    return render(request, 'webapp_flatswapp/register.html', context = {'user_form': user_form, 'profile_form': profile_form})
 
-    return render(request, 'webapp_flatswapp/after_register.html', context = {'profile_form': profile_form, 'registered': registered})
+def after_register(request):
+    if not(UserProfile.objects.filter(user=request.user).exists()):
+        if request.method == 'POST':
+            user = request.user
+            profile_form = UserProfileForm(request.POST)
+            if profile_form.is_valid():
+                profile = profile_form.save(commit=False)
+                profile.user = user
 
+                if 'picture' in request.FILES:
+                    profile.picture = request.FILES['picture']
+                    profile.save()
+                    registered = True
+            else:
+                print(profile_form.errors)
+
+        else:
+            profile_form = UserProfileForm()
+
+        return render(request, 'webapp_flatswapp/after_register.html', context = {'profile_form': profile_form})
+    return render(request,'webapp_flatswapp/myaccount.html')
 
 
 
