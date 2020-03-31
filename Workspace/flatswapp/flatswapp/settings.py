@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'social_django',
     'widget_tweaks',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

@@ -32,7 +32,7 @@ class Facility(models.Model):
     
     def __str__(self):
         return self.title
-        
+
 class Property(models.Model):
 
     property_id = models.AutoField(primary_key=True)
@@ -41,7 +41,8 @@ class Property(models.Model):
     slug = models.SlugField(unique=True)
     name=models.TextField()
     description=models.TextField(default='')
-    postcode=models.TextField(default='')
+    #postcode=models.TextField(default='')
+    address=models.TextField(default='')
     outdata=models.DateField(null=True)
     n_bedrooms=models.IntegerField(default=0)
     furnished=models.TextField(default='')
@@ -51,7 +52,8 @@ class Property(models.Model):
     nearest=models.TextField(default='')
     neighbour=models.TextField(default='')
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,null=True)
-    facility = models.ManyToManyField(Facility)
+    facility = models.ManyToManyField(Facility) #Check this there was a conflict on this line 
+
     
     def save(self, *args, **kwargs):
         super(Property, self).save(*args, **kwargs)
@@ -65,6 +67,15 @@ class Property(models.Model):
     def __str__(self):
         return str(self.property_id)
 
+class Facility(models.Model):
+    property = models.ManyToManyField(Property)
+    feature = models.CharField(max_length=128)
+    slug = models.SlugField()
+    
+    def __str__(self):
+        return self.feature
+        
+    
 #def get_image_filename(instance, filename):
 #    title = instance.property.title
 #    slug = slugify(title)

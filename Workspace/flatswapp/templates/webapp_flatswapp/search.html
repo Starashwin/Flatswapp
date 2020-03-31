@@ -20,27 +20,47 @@
       <h4 style="margin-top: 0">Filter</h4>
       <div class="row">
         <div class="form-group col-sm-4 col-md-3">
-          {{ filter.form.name.label_tag }}
-          {% render_field filter.form.name class="form-control" %}
+          {% render_field filter.form.multi_name_fields class="form-control" placeholder="Keyword"%}
         </div>
         <div class="form-group col-sm-4 col-md-3">
-          {{ filter.form.postcode.label_tag }}
-          {% render_field filter.form.postcode class="form-control" %}
+          {% render_field filter.form.postcode class="form-control" placeholder="Postcode"%}
         </div>
 		<div class="form-group col-sm-4 col-md-3">
-          {{ filter.form.furnished.label_tag }}
-          {% render_field filter.form.furnished class="form-control" %}
+          {% render_field filter.form.furnished class="form-control"%}
         </div>
-		
-		<div class="form-group col-sm-4 col-md-3">
-		  {{ filter.form.indate.label_tag }}
-		  {% render_field filter.form.indate class="form-control" id="datepicker" width="276" %}
+
+	  </div>
+	  <div class="row">
+		<div class="form-group col-md-3">
+			<p><strong>Rent Range</strong></p>
+          {% render_field filter.form.price class="form-control" style="width:250px; display:block;"%}
+        </div>
+		<div class="form-group col-md-3">
+			<p><strong>Date Range</strong></p>
+          {% render_field filter.form.date class="form-control" %}
+        </div>
+
+
+	  </div>
 			<script>
-				$('#datepicker').datepicker({
+				$('#datepicker1').datepicker({
 					uiLibrary: 'bootstrap4'
 				});
+				$('#datepicker2').datepicker({
+					uiLibrary: 'bootstrap4'
+				});
+				$('#id_date_0').datepicker({
+					uiLibrary: 'bootstrap4'
+				});
+				$('#id_date_1').datepicker({
+					uiLibrary: 'bootstrap4'
+				});
+				$('.gj-unselectable').width('250px');
+				document.getElementById("id_price_0").placeholder = 'From';
+				document.getElementById("id_price_1").placeholder = 'To';
+				document.getElementById("id_date_0").placeholder = 'From';
+				document.getElementById("id_date_1").placeholder = 'To';
 			</script>
-		</div>
 
         <!--<div class="form-group col-sm-4 col-md-3">
           {{ filter.form.year_joined.label_tag }}
@@ -56,7 +76,7 @@
             {% endfor %}
           </div>
         </div>-->
-      </div>
+      
       <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-search"></span> Search
       </button>
@@ -65,12 +85,11 @@
 
   {% if filter.qs %}
   <table class="table table-bordered">
-    <thead>
+    <thead class="text-center">
       <tr>
 	    <th>Picture</th>
-        <th>User</th>
-        <th>Views</th>
-        <th>Date joined</th>
+        <th>Details</th>
+        <th>User Contact</th>
 
       </tr>
     </thead>
@@ -78,10 +97,16 @@
       {% for property in filter.qs %}
         <tr>
 		  <td style="width: 420px; height: 320px;">
-			<img  src="{{ MEDIA_URL }}{{ property.cover }}" alt="" height="300" width="400" /></td>
-          <td><a class="list-group-item" href="/flatswapp/property/{{ property.slug }}"><strong>Property link</strong></a></td>
-          <td>{{ property.views }}</td>
-          <td>{{ property.user}}</br>
+			<img  src="{{ MEDIA_URL }}{{ property.cover }}" alt="" height="300" width="400" >
+		  </td>
+          <td>
+		  <h3><strong>{{ property.name }}</strong></h2></br>
+		  <strong>Furnished:</strong>{{ property.furnished }}</br>
+		  <strong>Rent:</strong>{{ property.rent }}</br>
+		  <strong>Nearest Neighbourhoods:</strong>{{ property.neighbour }}</br>
+		  <a href="/flatswapp/property/{{ property.slug }}"><strong>See more details...</br></strong></a>
+		  </td>
+          <td style="width:400px">{{ property.user}}</br>
 		  {{ property.user.email}}</br>
 		  {{ property.user.mobile }}
 		  </td>

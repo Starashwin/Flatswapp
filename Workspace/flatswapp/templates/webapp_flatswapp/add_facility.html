@@ -13,8 +13,9 @@ Add a Page
 	</head>
 
 	<body>-->
-		<h1>Add a Page</h1>
-		<div class="col-sm-4 mx-auto">
+		
+		<div class="col-sm-4 mx-auto" style="margin-top:70px">
+			<h1>Add Facilities and Services</h1>
 			<form id="page_form" method="post" action="/flatswapp/property/{{ property.slug }}/add_facility/">
 				{% csrf_token %}
 				{% for hidden in form.hidden_fields %}
@@ -25,7 +26,7 @@ Add a Page
 					{{ field.help_text }}
 					{{ field }}
 				{% endfor %}
-				<input type="submit" name="submit" value="Create Page" />
+				<input type="submit" name="submit" value="Add all" />
 			</form>
 		</div>
 {% endblock %}
