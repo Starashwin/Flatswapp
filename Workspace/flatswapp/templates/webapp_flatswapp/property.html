@@ -55,20 +55,8 @@
 		<div class="col-md-3" bis_skin_checked="1">
 		<h3>Facilities provided</h3>
 				<div id="facilities">
-				<script>
-				<!-- Split property.facility -->
-				var txt = document.createElement("textarea");
-				txt.innerHTML = "{{ property.facility }}";
-				var array = txt.innerHTML.replace(new RegExp("'", 'g'), "").replace("[","").replace("]","").split(",");
-				
-				text = "<ul class='list-group list-group-flush' >";
-				for (i = 0; i < array.length; i++) {
-				  text += "<li class='list-group-item list-group-item-primary' style='position:static;width:200px;'>" + array[i] + "</li>";
-				}
-				text += "</ul>";
-				
-				document.getElementById("facilities").innerHTML=text;
-				</script>
+				<script src="{% static 'facility_parse.js' %}"></script>
+			
 				</div>
 		</div>
 	</div>
@@ -92,37 +80,8 @@
 		{% endfor %}
 	</div>
 	
-	
-	<script>
-		function addToShortlist() {
-		  var xhttp = new XMLHttpRequest();
-		  xhttp.onreadystatechange = function() {
-		  if (this.status == 200) {
-				document.getElementById('add').innerHTML="Remove from Shortlist";
-				document.getElementById('add').setAttribute('onclick','removeFromShortlist();');
-				document.getElementById('add').setAttribute('id','remove')
-			}
-		};
-		  xhttp.open("GET", "http://localhost:8000/flatswapp/property/{{ property.slug }}/add_shortlist", true);
+	<script src="{% static 'shortlist.js' %}"></script>
 
-		  
-		  xhttp.send();
-		}
-		
-		function removeFromShortlist() {
-		  var xhttp = new XMLHttpRequest();
-		  xhttp.onreadystatechange = function() {
-		  if (this.status == 200) {
-				document.getElementById('remove').innerHTML="Add to Shortlist";
-				document.getElementById('remove').setAttribute('onclick','addToShortlist();');
-				document.getElementById('remove').setAttribute('id','add')
-			}
-		};
-		  xhttp.open("GET", "http://localhost:8000/flatswapp/property/{{ property.slug }}/remove_shortlist", true);
-		  
-		  xhttp.send();
-		}
-	</script>
 {% endblock %}
 <!--
 <!DOCTYPE html>

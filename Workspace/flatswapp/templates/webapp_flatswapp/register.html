@@ -8,8 +8,8 @@
 {% block body_block %}
 
 	
-	<script src="https://cdn.ideal-postcodes.co.uk/assets/application-62cbe07e8297b2f73364c29ce8fb3cd697e988e993579c444ee3eee439cf0f87.js"></script>
-	<script src="https://raw.githubusercontent.com/ideal-postcodes/jquery.postcodes/master/dist/postcodes.min.js"></script>
+		<script src="{% static 'application-62cbe07e8297b2f73364c29ce8fb3cd697e988e993579c444ee3eee439cf0f87.js' %}"></script>
+		<script src="{% static 'postcodes.min.js' %}"></script>
 	
 	<div class="col-sm-4 mx-auto" >
 	<h1 style="margin-top:80px">Register for Flatswapp</h1>
@@ -34,26 +34,8 @@
 		<button class="btn btn-lg btn-primary" style="margin-top:20px" >Create Your Profile</button>
 		</form>
 	</div>
-
-	<script>
-	$('#lookup_field').setupPostcodeLookup({
-		api_key: 'iddqd',
-		output_fields: {},
-		onAddressSelected: address => {
-		const result = [
-		address.line_1,
-		address.line_2,
-		address.line_3,
-		address.post_town,
-		address.postcode,
-	].filter(elem => elem !== "")
-		.join(", ");
-		document.getElementById("output_field").value=result;
-	},
-	input: '#customInput',
-	button: '#dummyButton'
-	});
-	</script>
+	<script src="{% static 'idealpostcodes.js' %}"></script>
+	
 	{% endif %}
 
 	
