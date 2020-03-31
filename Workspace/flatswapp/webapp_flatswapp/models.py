@@ -24,14 +24,14 @@ def create_user_profile(sender, instance, created, **kwargs):
    UserProfile.objects.create(user=instance)
 post_save.connect(create_user_profile, sender=User, dispatch_uid='create_extension')
 
-class Facility(models.Model):
+'''class Facility(models.Model):
     
     title = models.CharField(max_length=128)
     desciption=models.TextField()
     slug = models.SlugField()
     
     def __str__(self):
-        return self.title
+        return self.title'''
 
 class Property(models.Model):
 
@@ -52,7 +52,7 @@ class Property(models.Model):
     nearest=models.TextField(default='')
     neighbour=models.TextField(default='')
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,null=True)
-    facility = models.ManyToManyField(Facility) #Check this there was a conflict on this line 
+    #facility = models.ManyToManyField(Facility) #Check this there was a conflict on this line 
 
     
     def save(self, *args, **kwargs):
