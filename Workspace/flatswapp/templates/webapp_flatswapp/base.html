@@ -63,10 +63,11 @@
 	<body onload="javascript:hide();">
 	
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		{% if user.is_authenticated %}
 		<a href="{% url 'webapp_flatswapp:myaccount' %}">
 			<img src="{{ MEDIA_URL }}{{ user.profile.picture }}" class="rounded-circle" alt="" height="50" width="50" />
 		</a>
-		{% if user.is_authenticated %}
+		
 			<a class="navbar-brand" href="{% url 'webapp_flatswapp:myaccount' %}">Hello {{ user.username }}!</a>
 		{% else %}		
 			<a class="navbar-brand" href="{% url 'webapp_flatswapp:index' %}">Hello Guest!</a>
@@ -115,16 +116,16 @@
       </div>
     </nav>
 	
-		<div>
-			{% block body_block %}
-			<h1>Welcome to Flatswapp!</h1>
-			{% endblock %}
+	<div class="jumbotron jumbotron-fluid" style="background-color:#960019">
+		<div class="container">
+		  <h1 class="display-3">FlatSwapp</h1>
+		  <p class="lead">Flat-hunting made honest</p>
 		</div>
-		<div>
-			{% block sidebar_block %}
-			{% endblock %}
-		</div>
-
+	</div>
+	<div>
+		{% block body_block %}
+		{% endblock %}
+	</div>
 		<!-- <div>
 			<ul>
 				{% if user.is_authenticated %}
@@ -140,9 +141,16 @@
 				<li><a href="{% url 'webapp_flatswapp:index' %}">Index</a></li>
 			<ul>
 		</div> -->
-		
-		<footer class="container">
-			<p>&copy; Flatswapp 2020</p>
-		</footer>	
+	</div>
+	<hr class="split">
+	<footer class="container">
+		{% if user.is_authenticated %}
+			<p class="float-right"><a href="#">Back to top</a></p>
+			<p>© Flatswapp 2020 · <a href="{% url 'webapp_flatswapp:logout' %}">Log out</a> ·  <a href="{% url 'webapp_flatswapp:about' %}">About</a></p>
+		{% else %}
+			<p class="float-right"><a href="#">Back to top</a></p>
+			<p>© Flatswapp 2020 · <a href="{% url 'webapp_flatswapp:login' %}">Log in</a> · <a href="{% url 'webapp_flatswapp:register' %}">Sign up</a> · <a href="{% url 'webapp_flatswapp:about' %}">About</a></p>
+		{% endif %}
+	</footer>
 	</body>
 </html>

@@ -18,7 +18,7 @@
 	<form class="login_form" method="post" action="{% url 'webapp_flatswapp:login' %}" style="margin-top:70px">
 	{% csrf_token %}
       <div class="text-center mb-4">
-        <img src="https://i5.walmartimages.com/asr/3c559ef5-d1e2-4ab6-9762-25d7c6ff783d_1.2586e787bb54c23ac571712f76377199.jpeg" alt="Logo" width="80" height="80">
+        <img src="{{ MEDIA_URL }}logo.jpg" alt="Logo" width="80" height="80">
         <h2 class="h4 font-weight-normal">Login to Flatswapp</h2>
         <p> Find your tenant or landholder right now!</p>
       </div>

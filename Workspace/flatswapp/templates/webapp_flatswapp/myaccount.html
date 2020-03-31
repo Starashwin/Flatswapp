@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Flatswapp
+AccountPage
 {% endblock %}
 
 {% block body_block %}
@@ -22,17 +22,18 @@ Flatswapp
 
 	
   <div class="row">
+	  <div class="col-md-1" style="margin-top:70px"></div>
 	  <div class="col-md-3.5" style="margin-top:70px" >
 		
 		  
 		  <ul class="list-group ">
 			  <h1 class="display-5 list-group-item">My Details</h1>
-			  <li class="list-group-item list-group-item-primary"><strong>Username:</strong> {{ user.username }}</li>
-			  <li class="list-group-item list-group-item-secondary"><strong>Email:</strong> {{ user.profile.email }}</li>
-			  <li class="list-group-item list-group-item-success"><strong>Mobile:</strong> {{ user.profile.mobile }}</li>
-			  <li class="list-group-item list-group-item-danger"><strong>Address:</strong> {{ user.profile.address }}</li>
-			  <a class="list-group-item list-group-item-warning" href="{% url 'webapp_flatswapp:change_password' %}"><strong>Change password</strong></a>
-			  <a class="list-group-item list-group-item-info" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Add a flat</strong></a>
+			  <li class="list-group-item list-group-item-light"><strong>Username:</strong> {{ user.username }}</li>
+			  <li class="list-group-item list-group-item-light"><strong>Email:</strong> {{ user.profile.email }}</li>
+			  <li class="list-group-item list-group-item-light"><strong>Mobile:</strong> {{ user.profile.mobile }}</li>
+			  <li class="list-group-item list-group-item-light"><strong>Address:</strong> {{ user.profile.address }}</li>
+			  <a class="list-group-item list-group-item-light" href="{% url 'webapp_flatswapp:change_password' %}"><strong>Change password</strong></a>
+			  <a class="list-group-item list-group-item-light" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Add a flat</strong></a>
 			  <a class="list-group-item list-group-item-light" href="{% url 'webapp_flatswapp:search' %}"><strong>Search a flat</strong></a>
 			  
 			  <a class="list-group-item nav-link list-group-item-dark dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Shortlist</strong></a>
@@ -48,7 +49,7 @@ Flatswapp
 
 	  </div>
 
-	  <div class="col" style="margin-top:70px" >
+	  <div class="col-lg-5" style="margin-top:70px" >
 			<h1 class="display-5">My Shortlist</h1>
 			<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 			  <div class="carousel-inner">
@@ -70,25 +71,7 @@ Flatswapp
 				<span class="sr-only">Next</span>
 			  </a>
 			</div>
-		<!-- Example row of columns -->
-		<h1 class="heading"> Customer Experience</h1>
-		<div class="row">
-		  <div class="col-lg-6">
-			<h2>Brendan</h2>
-			<p> <img src="{{ MEDIA_URL }}persona1.jpg" alt="Persona1" width="200" height="200" style="float: left; margin-right: 10px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-			<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-		  </div>
-		  <div class="col-lg-6">
-			<h2>Martha</h2>
-			<p> <img src="{{ MEDIA_URL }}persona2.jpg" alt="Persona1" width="200" height="200" style="float: left; margin-right: 10px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-			<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-		  </div>
 		</div>
-
-		<hr>
-
-	  </div> <!-- /container -->
-	</div>
 {% else %}
 <meta http-equiv="refresh" content="0; url=/flatswapp/" />
 {% endif %}
