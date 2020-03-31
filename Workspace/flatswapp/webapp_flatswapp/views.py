@@ -43,32 +43,15 @@ def show_property(request, id_slug):
         property = Property.objects.get(slug=id_slug)
         property.views+=1
         property.save()
-        #pages = Page.objects.filter(property=property)
-        #context_dict['pages'] = pages
+
         context_dict['property'] = property
         context_dict['images'] = Images.objects.filter(property=property)
+        fac = Facility.objects.filter(property=property)
+        context_dict['facilities'] = fac
     except property.DoesNotExist:
         context_dict['property'] = None
-        #context_dict['pages'] = None
+
     return render(request, 'webapp_flatswapp/property.html', context=context_dict)
-
-@login_required
-# def add_property(request):
-    # if request.method == 'POST':
-        # form = PropertyForm(request.POST, request.FILES)
-
-        # if form.is_valid():
-            # #form.save()
-            # form.save(commit=False)
-            # for field in request.FILES.keys():
-                # for formfile in request.FILES.getlist(field):
-                    # img = Property(picture = formfile)
-                    # img.save()
-            # form.save()
-            # return redirect('/flatswapp/success')
-    # else:
-        # form = PropertyForm()
-    # return render(request, 'webapp_flatswapp/add_property.html', {'form' : form})
 
 def success(request):
     return HttpResponse('Property added successfully')
@@ -117,22 +100,7 @@ def add_property(request):
                     photo = Images(property=property_form, image=image)
                     photo.save()
             messages.success(request, "Self written successful!")
-            return HttpResponseRedirect("/flatswapp/")
-            # form.user=request.user
-            
-            # print(form['postcode'].value())
-            # url = 'http://api.postcodes.io/postcodes/%s'%(form['postcode'].value())
-            # data = requests.get(url).json()
-            # print(data['status'])
-            # if data['status']==200:
-                # print("Working2")
-                # data=data['result']
-                # print(data['longitude'])
-                # form.cleaned_data['longitude'] = data['longitude']
-                # form.cleaned_data['latitude'] = data['latitude']
-            
-            # if 'picture' in request.FILES:
-                # form.picture = request.FILES['picture']
+            return HttpResponseRedirect("/flatswapp/property/"+property_form.slug+"/add_facility/")
             
             # Save the new category to the database.
 
@@ -163,14 +131,14 @@ def add_facility(request, id_slug):
     form = FacilityForm()
 
     if request.method == 'POST':
-        form = PageForm(request.POST)
+        form = FacilityForm(request.POST)
 
         if form.is_valid():
             if property:
                 facility = form.save(commit=False)
-                facility.property = property
-                facility.views = 0
                 facility.save()
+                facility.property.add(property)                
+                
                 
                 return redirect(reverse('webapp_flatswapp:show_property',kwargs={'id_slug':id_slug}))
         else:
@@ -192,6 +160,7 @@ def register(request):
             user.save()
             profile = profile_form.save(commit=False)
             profile.user = user
+            
             #address = address_form.save(commit=False)
             #profile.address = adress
 
@@ -255,7 +224,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('/flatswapp/change_password')
+            return redirect('/flatswapp/myaccount')
         else:
             messages.error(request, 'Please correct the error below.')
     else:

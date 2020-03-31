@@ -25,50 +25,52 @@ class UserProfileForm(forms.ModelForm):
 
 class FacilityForm(forms.ModelForm):
     OPTIONS = (
-        ("Electricity", "Electricity"),
-        ("Heating", "Heating"),
-        ("Other", "Other")
+        ("Electric Heating", "Electric Heating"),
+        ("Gas Heating", "Gas Heating"),
+        ("Private Parking","Private Parking"),
+        ("Dishwasher","Dishwasher"),
+        ("Dryer","Dryer"),
+        ("Washing Machine","Washing Machine"),
+        ("Elevator","Elevator"),
+        ("Garden","Garden"),
         )
-    title = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,choices=OPTIONS)
-    desciption = forms.CharField(widget=forms.Textarea(attrs={'class' : 'list-group-item','style' : 'height:100px','placeholder':'Description'}), label='')
+    feature = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,choices=OPTIONS)
+    # desciption = forms.CharField(widget=forms.Textarea(attrs={'class' : 'list-group-item','style' : 'height:100px','placeholder':'Description'}), label='', required=False)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:     
-        model = UserProfile
-        fields = ('title', 'desciption',)
-    # class Meta:
-    # # Provide an association between the ModelForm and a model
-        # model = Page
-    # # What fields do we want to include in our form?
-    # # This way we don't need every field in the model present.
-    # # Some fields may allow NULL values; we may not want to include them.
-    # # Here, we are hiding the foreign key.
-    # # we can either exclude the category field from the form,
-        # exclude = ('category',)
-    # # or specify the fields to include (don't include the category field).
-    # #fields = ('title', 'url', 'views')
-    # def clean(self):
-        # cleaned_data = self.cleaned_data
-        # url = cleaned_data.get('url')
-        
-        # # If url is not empty and doesn't start with 'http://',
-        # # then prepend 'http://'.
-        # if url and not url.startswith('http://'):
-            # url = f'http://{url}'
-            # cleaned_data['url'] = url
-            
-        # return cleaned_data    
+        model = Facility
+        fields = ('feature', )
+
     
 class PropertyForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     user = forms.CharField(widget=forms.HiddenInput(), required=False)
+        
+    FURNISHED_OPTIONS = (
+    ("N/A","N/A"),
+    ("Yes", "Yes"),
+    ("Partially", "Partially"),
+    ("No", "No")
+    )
     
-    name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Post Title'}), label='')
-    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Postcode','onchange':"javascript:getAPI();"}), label='')
-    n_bedrooms=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}), label='')
-    furnished=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}), label='')
+    BEDROOMS_OPTIONS = (
+    (0, '0 bedroom'),
+    (1, '1 bedroom'),
+    (2, '2 bedrooms'),
+    (3, '3 bedrooms'),
+    (4, '4 bedrooms'),
+    (5, '5 bedrooms'),
+    (999, 'More than 5 bedrooms')
+    )
+    
+    name=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Ad Title'}), label='')
+    postcode=forms.CharField(widget=forms.TextInput(attrs={'class' : 'list-group-item','id':'customInput','placeholder':'Postcode','onchange':"javascript:getAPI();javascript:document.getElementById('dummyButton').click();"}), label='')
+    address=forms.CharField(widget=forms.TextInput (attrs={'class' : 'list-group-item','id':'output_field','placeholder':'Address'}), label='')
+    n_bedrooms=forms.ChoiceField(widget=forms.Select(attrs={'class' : 'list-group-item','placeholder':'Number of Bedrooms'}),choices=BEDROOMS_OPTIONS, label='')
+    furnished=forms.ChoiceField(widget=forms.Select(attrs={'class' : 'list-group-item','placeholder':'Is it furnished?'}),choices=FURNISHED_OPTIONS, label='')
     rent=forms.IntegerField(widget=forms.TextInput(attrs={'class' : 'list-group-item','placeholder':'Rent Amount'}), label='')
     cover = forms.ImageField(label='Cover Picture')
     outdata = forms.DateField(widget=forms.DateInput(attrs={'class' : 'list-group-item input-sm','id':'datepicker','style':'height:50px;','placeholder':'Moving Out Date'}), label='')
@@ -76,25 +78,15 @@ class PropertyForm(forms.ModelForm):
     
     #id="datepicker" class="form-control" data-type="datepicker" data-guid="02d4517a-7236-bb43-2b2c-1dea160fd41c" data-datepicker="true"
     
-    outward=forms.CharField(widget=forms.HiddenInput(), initial='')
-    nearest=forms.CharField(widget=forms.HiddenInput(), initial='')
-    neighbour=forms.CharField(widget=forms.HiddenInput(), initial='')
-    # # print(form['postcode'].value())
-    # url = 'http://api.postcodes.io/postcodes/%s'%(postcode)
-    # data = requests.get(url).json()
-    # print(data)
-    # if data['status']==200:
-        # print("Working2")
-        # data=data['result']
-        # longitude = data['longitude']
-        # latitude = data['latitude']
-    #picture = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    # An inline class to provide additional information on the form.
+    outward=forms.CharField(widget=forms.HiddenInput(), initial='', required=False)
+    nearest=forms.CharField(widget=forms.HiddenInput(), initial='', required=False)
+    neighbour=forms.CharField(widget=forms.HiddenInput(), initial='', required=False)
+
     class Meta:
     # Provide an association between the ModelForm and a model
         model = Property
 
-        fields = ['name','postcode','n_bedrooms','furnished','outdata','rent','description','cover']
+        fields = ['name','n_bedrooms','furnished','postcode','address','outdata','rent','description','cover','outward','nearest','neighbour','slug']
         
 class PropertyImageForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput(attrs={'onchange':"javascript:updateImage();readURL(this);"}), label='')

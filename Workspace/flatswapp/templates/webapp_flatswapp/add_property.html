@@ -7,6 +7,7 @@ Add a Property
 {% endblock %}
 
 {% block body_block %}
+
 <!--<html>
 	<head>
 		<title>webapp_flatswapp</title>
@@ -18,20 +19,21 @@ Add a Property
 		</div>
 		<div class="col-md-4 mx-auto"  style="margin-top:70px">
 			<h1>Add a Property</h1>
-			<form id="property_form" method="post" action="{% url 'webapp_flatswapp:add_property' %}" enctype="multipart/form-data"> <!--action="/flatswapp/add_category/"-->
+			<form  method="post" action="{% url 'webapp_flatswapp:add_property' %}" enctype="multipart/form-data"> <!--action="/flatswapp/add_category/"-->
 				
 				{% csrf_token %}
 				{% for hidden in form.hidden_fields %}
 					{{ hidden }}
 				{% endfor %}
-				
+				<div id="lookup_field">
 				{% for field in form.visible_fields %}
 					{{ field.errors }}
 					{{ field.help_text }}
 					{{ field }}
 				{% endfor %}
-
 				
+				<a id="dummyButton"></a>
+				</div>
 		</div>
 		
 			<div class="col mx-auto" style="margin-top:70px">
@@ -48,6 +50,11 @@ Add a Property
 						<img id="img2" src="http://placehold.it/180" alt="your image" height="180" width="180"/>
 						</div>
 			</div>
+			
+					<div class="col-sm-3 mx-auto" style="margin-top:70px">
+						
+					</div>
+			</div>
 		</div>
 		
 				<div class="col text-center">
@@ -62,10 +69,36 @@ Add a Property
 				$('.gj-unselectable').width('400px');
 				<!--input.addEventListener('change', updateImageDisplay);-->
 				</script>
-
-		</div>
+				
+		<script src="https://cdn.ideal-postcodes.co.uk/assets/application-62cbe07e8297b2f73364c29ce8fb3cd697e988e993579c444ee3eee439cf0f87.js"></script>
+		<script src="https://raw.githubusercontent.com/ideal-postcodes/jquery.postcodes/master/dist/postcodes.min.js"></script>
+		<script>
+		
+		$('#lookup_field').setupPostcodeLookup({
+			api_key: 'iddqd',
+			
+			output_fields: {},
+			onAddressSelected: address => {
+			const result = [
+			address.line_1,
+			address.line_2,
+			address.line_3,
+			address.post_town,
+			address.postcode,
+		].filter(elem => elem !== "")
+			.join(", ");
+			document.getElementById("output_field").value=result;
+		},
+		input: '#customInput',
+		button: '#dummyButton'
+		});
+		</script>
+		
+		
 		
 		<script>
+			
+			
 			function getAPI()
 			{
 				(async () => {
@@ -162,7 +195,6 @@ Add a Property
 			function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-				alert(input.id.match(/\d+/g));
 				var i = 0;
 				i=input.id.match(/\d+/g);
                 reader.onload = function (e) {
