@@ -30,8 +30,11 @@ def index(request):
 @login_required
 def myaccount(request):
     context_dict = {}
-    context_dict['shortlist'] = Shortlist.objects.filter(Q(user=request.user.profile))
-    return render(request, 'webapp_flatswapp/myaccount.html',context=context_dict) #Renders myaccount.html when URL associated to this view is requested.
+    try:
+        context_dict['shortlist'] = Shortlist.objects.filter(Q(user=request.user.profile))
+        return render(request, 'webapp_flatswapp/myaccount.html',context=context_dict)
+    except:
+        return redirect(reverse('webapp_flatswapp:register1')) #Renders myaccount.html when URL associated to this view is requested.
 
 #This function renders about.html when the URL assoscaited to this view is requested.
 def about(request):
@@ -186,6 +189,7 @@ def register(request):
 
 #This fuction is used to create  view to the create userprofile for the users which re logged in through social accounts.
 def after_register(request):
+    registered = False
     if not(UserProfile.objects.filter(user=request.user).exists()): #check if the user profile exist or not, if not then proceed with the profile creation.
         if request.method == 'POST':
             user = request.user
@@ -204,7 +208,7 @@ def after_register(request):
         else:
             profile_form = UserProfileForm()
 
-        return render(request, 'webapp_flatswapp/after_register.html', context = {'profile_form': profile_form})
+        return render(request, 'webapp_flatswapp/after_register.html', context = {'profile_form': profile_form,'registered':registered})
     return render(request,'webapp_flatswapp/myaccount.html') #render myaccount.html after successful creation of profile.
 
 #This function is used to create the view for the user to login into Flatswapp with an existing account.
