@@ -1,12 +1,15 @@
+#This file contains the URLs for the Flatswapp,webapp_flatswapp 
+
 from django.urls import path
 from django.conf import settings
 from django.urls import include
 
 
-from webapp_flatswapp import views
+from webapp_flatswapp import views 
 
 app_name = 'webapp_flatswapp'
 
+#All these URLs are extension after "/flatswapp/" in URL
 urlpatterns = [
 
     path('', views.index, name='index'),
