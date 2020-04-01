@@ -53,10 +53,15 @@
 		</div>
 		
 		<div class="col-md-3" bis_skin_checked="1">
-		<h3>Facilities provided</h3>
+		<h3>Facilities Provided</h3>
 				<div id="facilities">
+				<!-- Explicitly displayed initial bist of facility_parse.js to make {{ property.facility }} accessible for Django-->
+				<script>var txt = document.createElement("textarea");
+						txt.innerHTML = "{{ property.facility }}";</script>
+						
 				<script src="{% static 'facility_parse.js' %}"></script>
-			
+
+									
 				</div>
 		</div>
 	</div>
