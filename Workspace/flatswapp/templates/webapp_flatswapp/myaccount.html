@@ -6,16 +6,6 @@ AccountPage
 {% endblock %}
 
 {% block body_block %}
-	<!-- <h1>Welcome to the homepage of Flatswapp</h1>
-	<li><a href="{% url 'webapp_flatswapp:search' %}">Search Here</a></li>
-	<div>
-		{% if user.is_authenticated %}
-			Hey {{ user.username }}!
-		{% else %}
-			Hello Guest!
-		{% endif %}
-		<br/>
-	</div>-->
 
 {% if user.is_authenticated %}
 	
@@ -25,7 +15,7 @@ AccountPage
 	  <div class="col-md-1" style="margin-top:70px"></div>
 	  <div class="col-md-3.5" style="margin-top:70px" >
 		
-		  
+		  <!-- Displaying a side bar for user details -->
 		  <ul class="list-group ">
 			  <h1 class="display-5 list-group-item">My Details</h1>
 			  <li class="list-group-item list-group-item-light"><strong>Username:</strong> {{ user.username }}</li>
@@ -36,6 +26,7 @@ AccountPage
 			  <a class="list-group-item list-group-item-light" href="{% url 'webapp_flatswapp:add_property' %}"><strong>Add a flat</strong></a>
 			  <a class="list-group-item list-group-item-light" href="{% url 'webapp_flatswapp:search' %}"><strong>Search a flat</strong></a>
 			  
+			  <!-- Displaying shortlist as as sidebar -->
 			  <a class="list-group-item nav-link list-group-item-dark dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Shortlist</strong></a>
 				<div class="dropdown-menu" aria-labelledby="dropdown01">
 					{% for sh in shortlist %}
@@ -48,13 +39,13 @@ AccountPage
 			</ul>
 
 	  </div>
-
+		<!-- Slider for shortlist-->
 	  <div class="col-lg-5" style="margin-top:70px" >
 			<h1 class="display-5">My Shortlist</h1>
 			<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 			  <div class="carousel-inner">
 				<div class="carousel-item active">
-				  <img class="d-block w-100" src="https://freshome.com/wp-content/uploads/2018/09/contemporary-exterior.jpg" alt="First slide">
+				  <img class="d-block w-100" src="{{ MEDIA_URL }}logo.jpg" alt="First slide">
 				</div>
 				{% for sh in shortlist %}
 				<div class="carousel-item">

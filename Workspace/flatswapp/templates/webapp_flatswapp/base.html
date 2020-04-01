@@ -17,7 +17,9 @@
 		<script src="{% static 'bootstrap.min.js' %}" type="text/javascript"></script>
 		
 		<script src="{% static 'gijgo.min.js' %}" type="text/javascript"></script>
-		<link href="{% static 'gijgo.min.css' %}" rel="stylesheet" type="text/css" />
+		
+		<!-- This css was not properly functioning in static folder, So it is explicitly called from web-->
+		<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css">
 		
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -53,7 +55,7 @@
 		</style>
 	</head>
 	<body onload="javascript:hide();">
-	
+	<!-- Displaying Navigation Bar-->
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		{% if user.is_authenticated %}
 		<a href="{% url 'webapp_flatswapp:myaccount' %}">
@@ -82,12 +84,9 @@
             <a class="nav-link" href="{% url 'webapp_flatswapp:register' %}">Sign Up</a>
           </li>
 		  
-
-          <!-- <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li> -->
+			<!-- Displaying Login Options-->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
+            <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" href="{% url 'webapp_flatswapp:login' %}">Login with Credentials</a>
               <a class="dropdown-item" href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
@@ -101,13 +100,11 @@
         <form class="form-inline my-2 my-lg-0" method="post" action="{% url 'webapp_flatswapp:search' %}">
 		{% csrf_token %}
 			<input type="text" name="multi_name_fields" placeholder="Search" class="form-control type=" id="id_multi_name_fields">
-		<!--{% render_field filter.form.name class="form-control type="text" mr-sm-2" placeholder="Search"%}
-           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"> -->
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </div>
     </nav>
-	
+	<!--Jumbtron field-->
 	<div class="jumbotron jumbotron-fluid" style="background-color:#960019">
 		<div class="container">
 		  <h1 class="display-3">FlatSwapp</h1>
@@ -118,23 +115,10 @@
 		{% block body_block %}
 		{% endblock %}
 	</div>
-		<!-- <div>
-			<ul>
-				{% if user.is_authenticated %}
-					<li><a href="{% url 'webapp_flatswapp:logout' %}">Logout</a></li>
-				{% else %}
-					<li><a href="{% url 'webapp_flatswapp:register' %}">Sign up</a></li>
-					<li><a href="{% url 'webapp_flatswapp:login' %}">Login</a></li>
-					<li><a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a></li>
-					<li><a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a></li>
-					<li><a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a></li>
-				{% endif %}
-				<li><a href="{% url 'webapp_flatswapp:about' %}">About</a></li>
-				<li><a href="{% url 'webapp_flatswapp:index' %}">Index</a></li>
-			<ul>
-		</div> -->
+
 	</div>
 	<hr class="split">
+	<!-- Displaying Footer -->
 	<footer class="container">
 		{% if user.is_authenticated %}
 			<p class="float-right"><a href="#">Back to top</a></p>

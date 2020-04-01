@@ -7,19 +7,13 @@ Add a Property
 {% endblock %}
 
 {% block body_block %}
-
-<!--<html>
-	<head>
-		<title>webapp_flatswapp</title>
-	</head>
-
-	<body>-->
+		<!--Form for adding property-->
 		<div class="row">
 		<div class="col-sm-2 mx-auto"  style="margin-top:70px">
 		</div>
 		<div class="col-md-4 mx-auto"  style="margin-top:70px">
 			<h1>Add a Property</h1>
-			<form  method="post" action="{% url 'webapp_flatswapp:add_property' %}" enctype="multipart/form-data"> <!--action="/flatswapp/add_category/"-->
+			<form  method="post" action="{% url 'webapp_flatswapp:add_property' %}" enctype="multipart/form-data">
 				
 				{% csrf_token %}
 				{% for hidden in form.hidden_fields %}
@@ -35,7 +29,7 @@ Add a Property
 				<a id="dummyButton"></a>
 				</div>
 		</div>
-		
+		<!--Form for adding images-->
 			<div class="col mx-auto" style="margin-top:70px">
 					<h2> Extra Images </h2>
 					<div>
@@ -61,14 +55,14 @@ Add a Property
 				<button class="btn btn-lg btn-primary" type="submit">Create Property</button>
 				</div>
 			</form>
+				<!--Js to run date picker-->
 				<script src="{% static 'datepicker.js' %}" type="text/javascript"></script>
-				
+			<!--Js to get detailed post code information-->
 		<script src="{% static 'application-62cbe07e8297b2f73364c29ce8fb3cd697e988e993579c444ee3eee439cf0f87.js' %}"></script>
 		<script src="{% static 'postcodes.min.js' %}"></script>
+		<!--Use idealpostcodes API to validate and pop up address automatically-->
 		<script src="{% static 'idealpostcodes.js' %}"></script>
-		
+		<!--Use postcodes_io API to get closest neighbourhoods and post codes to the entered post code-->
 		<script src="{% static 'postcodes_io.js' %}"></script>
 			
 {% endblock %}
-<!--</body>
-</html>-->

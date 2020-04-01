@@ -12,9 +12,10 @@
 
 {% block body_block %}
 	<div class="row">
-	{% if property %}
-	<h1 class="col-sm-4" style="margin-top:70px">{{ property.name }}</h1>
-	
+	<!-- Display Property Name-->
+		{% if property %}
+		<h1 class="col-sm-4" style="margin-top:70px">{{ property.name }}</h1>
+		<!-- Display Shortlist Button-->
 		{% if user.is_authenticated %}
 		{% if shortlisted %}
 		<button class="btn btn-lg btn-primary" style="margin-top:70px" id="remove" onclick="javascript:removeFromShortlist()">Remove from Shortlist</button>
@@ -23,6 +24,7 @@
 		{% endif %}	
 		{% endif %}	
 	</div>
+	<!--Display Details(Cover Pic, Property and Facility-->
 	<div class="row" bis_skin_checked="1">
 	
 		<div class="col-md-4" bis_skin_checked="1">
@@ -32,10 +34,10 @@
 
 		</div>
 		<div class="col-md-5" bis_skin_checked="1">
-		<h3 class="text-center">Details</br></h3>
-		<ul class="list-group" >
+			<h3 class="text-center">Details</br></h3>
+			<ul class="list-group" >
 			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Address:</strong> 
-			  {% if user.is_authenticated %}
+			  {% if user.is_authenticated %} <!-- Guest user should not see address-->
 			  {{ property.address }} 
 			  {% else %}
 			  <a href="/flatswapp/login"><strong>Please login to see details</br></strong></a>
@@ -45,11 +47,11 @@
 			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Rent:</strong> {{ property.rent }}</li>
 			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Moving Out Date:</strong> {{ property.outdata }}</li>
 			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Furnished:</strong> {{ property.furnished }}</li>
-			  {% if user.is_authenticated %}
+			  {% if user.is_authenticated %} <!-- Guest user should not see private data of other users-->
 			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Mobile:</strong> {{ property.user.mobile }}</li>
 			  <li class="list-group-item list-group-item-secondary" style="width: 500px;"><strong>Email:</strong> {{ property.user.email }}</li>
 			  {% endif%}
-			  </ul>
+			</ul>
 		</div>
 		
 		<div class="col-md-3" bis_skin_checked="1">
@@ -68,7 +70,7 @@
 	{% else %}
 		The specified property does not exist.
 	{% endif %}
-	
+	<!-- Display Extra Images -->
 	<h3 class="text-center" style="margin-top:20px">Extra Images</br></h3>
 	<div class="row" bis_skin_checked="1">
 	
@@ -84,41 +86,8 @@
 		</div>
 		{% endfor %}
 	</div>
-	
+	<!--Shortlist.js accesses to add_shortlist view. Property.slug is out of static js file to make it accessible by Django -->
+	<script>prop=document.getElementById('add').value="{{ property.slug }}"; </script>
 	<script src="{% static 'shortlist.js' %}"></script>
 
 {% endblock %}
-<!--
-<!DOCTYPE html>
-<html>
-
-	<head>
-		<title>Rango</title>
-	</head>
-
-	<body>
-		<div>
-		{% if category %}
-			<h1>{{ category.name }}</h1>
-			{% if pages %}
-			<ul>
-				{% for page in pages %}
-				<li><a href="{{ page.url }}">{{ page.title }}</a></li>
-				{% endfor %}
-			</ul>
-			{% else %}
-			<strong>No pages currently in category.</strong>
-			{% endif %}
-		{% else %}
-			The specified category does not exist.
-		{% endif %}
-		</div>
-		<div>
-		<a href="/rango/category/{{category.slug }}/add_page/">Add Page</a> <br/>
-		</div>
-		<div>
-			<a href="/rango/">Index</a>
-		</div>
-	</body>
-</html>
--->
