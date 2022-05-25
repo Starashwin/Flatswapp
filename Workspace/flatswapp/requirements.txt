@@ -17,7 +17,7 @@ oauthlib==3.1.0
 olefile==0.46
 phonenumbers==8.11.4
 Pillow==7.0.0
-PyJWT==1.7.1
+PyJWT==2.4.0
 python-dateutil==2.8.1
 python-dotenv==0.12.0
 python-social-auth==0.3.6
